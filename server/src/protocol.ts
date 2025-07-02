@@ -48,11 +48,11 @@ const bytesToFloat = (first: number, second: number) =>
 const parseResponse = (data: Uint8Array): SocketInfo => ({
   raw: data,
   valid:
-    data.length == 21 &&
+    data.length == 20 &&
     data[0] == 0x55 &&
     data[1] == 0xaa &&
-    data[19] == 0x5a &&
-    data[20] == 0xa5,
+    data[18] == 0x5a &&
+    data[19] == 0xa5,
   get delay() {
     return data[3]!;
   },

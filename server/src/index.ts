@@ -1,3 +1,5 @@
+import { RtcRole, RtcTokenBuilder } from "agora-token";
+
 import {
   AGORA_APP_CERT,
   AGORA_APP_ID,
@@ -12,7 +14,7 @@ import { createPayload, parseResponse } from "./protocol";
 
 import type { ServerWebSocket, Socket } from "bun";
 import type { SocketInfo } from "./protocol";
-import { RtcRole, RtcTokenBuilder } from "agora-token";
+import logger from "./logger";
 
 type ServerResponse<T> =
   | { success: true; data: T }
@@ -55,12 +57,18 @@ const server = Bun.serve({
         ),
         uid: AGORA_UID,
       }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET",
+        },
+      },
     ),
-  },
-  fetch: (req, server) => {
-    if (server.upgrade(req)) return undefined;
-
-    return new Response();
+    "/ws": (req, server) => {
+      if (server.upgrade(req)) return undefined;
+      return new Response("WebSocket not supported");
+    },
   },
   websocket: {
     open: async (ws) => {
@@ -69,6 +77,9 @@ const server = Bun.serve({
         ws.close();
       }
       occupied = true;
+
+      logger.info("New client connected");
+
       socket = await Bun.connect({
         hostname: TCP_REMOTE_ADDR,
         port: TCP_REMOTE_PORT,
@@ -76,12 +87,19 @@ const server = Bun.serve({
           data: (_, data) => {
             const { raw: __, ...res } = parseResponse(data);
             if (!res.valid) return;
+            logger.debug(
+              `Received data from TCP server: ${JSON.stringify(res)}`,
+            );
             sendSuccess(ws, { type: "socket_info", ...res });
           },
+          close: () => logger.info("TCP connection closed"),
         },
       });
+      logger.info("Connected to TCP server");
     },
     message: async (ws, message) => {
+      logger.debug(`Received data: ${message}`);
+
       const result = validateData(message);
       if (!result.success) {
         sendError(ws, "Invalid data format");
@@ -100,15 +118,18 @@ const server = Bun.serve({
           const { left, right } = data;
           socket.write(createPayload(left, right));
           break;
+        case "heartbeat":
+          socket.write(createPayload(500, 500));
       }
     },
     close: async (_) => {
       occupied = false;
-      socket?.close();
+      socket?.close?.();
       socket = null;
+      logger.info("Client disconnected");
     },
   },
 });
 
-console.log(`Websocket server started on ${server.hostname}:${server.port}`);
-console.log("Press ctrl+c to stop the server");
+logger.info(`Websocket server started on ${server.hostname}:${server.port}`);
+logger.info("Press ctrl+c to stop the server");
