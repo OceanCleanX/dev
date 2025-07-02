@@ -1,9 +1,18 @@
-import { TCP_REMOTE_ADDR, TCP_REMOTE_PORT } from "./env";
+import {
+  AGORA_APP_CERT,
+  AGORA_APP_ID,
+  AGORA_CHANNEL_NAME,
+  AGORA_TOKEN_EXPIRE,
+  AGORA_UID,
+  TCP_REMOTE_ADDR,
+  TCP_REMOTE_PORT,
+} from "./env";
 import validateData from "./validate";
 import { createPayload, parseResponse } from "./protocol";
 
 import type { ServerWebSocket, Socket } from "bun";
 import type { SocketInfo } from "./protocol";
+import { RtcRole, RtcTokenBuilder } from "agora-token";
 
 type ServerResponse<T> =
   | { success: true; data: T }
@@ -30,6 +39,24 @@ let occupied = false;
 let socket: Socket<undefined> | null = null;
 
 const server = Bun.serve({
+  routes: {
+    "/api/agora": new Response(
+      JSON.stringify({
+        app_id: AGORA_APP_ID,
+        channel_name: AGORA_CHANNEL_NAME,
+        token: RtcTokenBuilder.buildTokenWithUid(
+          AGORA_APP_ID,
+          AGORA_APP_CERT,
+          AGORA_CHANNEL_NAME,
+          AGORA_UID,
+          RtcRole.PUBLISHER,
+          AGORA_TOKEN_EXPIRE,
+          AGORA_TOKEN_EXPIRE,
+        ),
+        uid: AGORA_UID,
+      }),
+    ),
+  },
   fetch: (req, server) => {
     if (server.upgrade(req)) return undefined;
 
