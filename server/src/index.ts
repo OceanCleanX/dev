@@ -130,11 +130,6 @@ const server = Bun.serve({
       logger.info("Client disconnected");
     },
   },
-  ...(process.env.TLS_CERT &&
-    process.env.TLS_KEY && {
-      cert: Bun.file(process.env.TLS_CERT),
-      key: Bun.file(process.env.TLS_KEY),
-    }),
 });
 
 logger.info(`Websocket server started on ${server.hostname}:${server.port}`);
