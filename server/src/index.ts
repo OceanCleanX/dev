@@ -40,6 +40,7 @@ let occupied = false;
 let socket: Socket<undefined> | null = null;
 
 const server = Bun.serve({
+  fetch: () => new Response("good"),
   routes: {
     "/api/agora": () => {
       const uid = Math.floor(Math.random() * 1000000000);
