@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <div className="h-screen w-screen grid grid-cols-9 grid-rows-4 gap-4 p-4">
-      <Camera className="border rounded-xl col-span-7 row-span-3" />
+      <Camera className="border col-span-7 row-span-3" />
       <div className="col-span-2 row-span-3">
         <SocketInfo />
         <div className="mt-3" />
