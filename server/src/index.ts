@@ -132,8 +132,8 @@ const server = Bun.serve({
   },
   ...(process.env.TLS_CERT &&
     process.env.TLS_KEY && {
-      certFile: Bun.file(process.env.TLS_CERT),
-      keyFile: Bun.file(process.env.TLS_KEY),
+      cert: Bun.file(process.env.TLS_CERT),
+      key: Bun.file(process.env.TLS_KEY),
     }),
 });
 
