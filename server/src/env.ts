@@ -1,4 +1,4 @@
-export const throwIfMissing = (name: string): never => {
+const throwIfMissing = (name: string): never => {
   throw new Error(`No env variable found for ${name}`);
 };
 

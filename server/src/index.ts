@@ -7,7 +7,6 @@ import {
   AGORA_TOKEN_EXPIRE,
   TCP_REMOTE_ADDR,
   TCP_REMOTE_PORT,
-  throwIfMissing,
 } from "./env";
 import validateData from "./validate";
 import { createPayload, parseResponse } from "./protocol";
@@ -133,8 +132,8 @@ const server = Bun.serve({
   },
   ...(process.env.TLS_CERT &&
     process.env.TLS_KEY && {
-      certFile: Bun.file(process.env.TLS_CERT ?? throwIfMissing("TLS_CERT")),
-      keyFile: Bun.file(process.env.TLS_KEY ?? throwIfMissing("TLS_KEY")),
+      certFile: Bun.file(process.env.TLS_CERT),
+      keyFile: Bun.file(process.env.TLS_KEY),
     }),
 });
 
