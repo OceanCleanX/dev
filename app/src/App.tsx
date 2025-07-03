@@ -1,30 +1,24 @@
-import {
-  RemoteVideoTrack,
-  useRemoteUsers,
-  useRemoteVideoTracks,
-  useRTCClient,
-} from "agora-rtc-react";
-
 import useWs from "./hooks/useWs";
+import { Control, ControlModeSwitch } from "./components/controls";
+import Camera from "./components/camera";
+import SocketInfo from "./components/socket-info";
 
 const App = () => {
   useWs();
 
-  const client = useRTCClient();
-  const remoteUsers = useRemoteUsers(client);
-  const {
-    videoTracks: [videoTrack],
-  } = useRemoteVideoTracks(remoteUsers);
-
   return (
-    <RemoteVideoTrack
-      style={{
-        width: "100vw",
-        height: "100vh",
-      }}
-      play
-      track={videoTrack}
-    />
+    <div className="h-screen w-screen grid grid-cols-9 grid-rows-4 gap-4 p-4">
+      <Camera className="border rounded-xl col-span-7 row-span-3" />
+      <div className="col-span-2 row-span-3">
+        <SocketInfo />
+        <div className="mt-3" />
+        <div>
+          <span className="font-semibold">Control Mode: </span>
+          <ControlModeSwitch />
+        </div>
+      </div>
+      <Control className="col-span-9 row-span-1" />
+    </div>
   );
 };
 

@@ -5,14 +5,13 @@ import {
   AGORA_APP_ID,
   AGORA_CHANNEL_NAME,
   AGORA_TOKEN_EXPIRE,
-  AGORA_UID,
   TCP_REMOTE_ADDR,
   TCP_REMOTE_PORT,
 } from "./env";
 import validateData from "./validate";
 import { createPayload, parseResponse } from "./protocol";
 
-import type { ServerWebSocket, Socket } from "bun";
+import { ArrayBufferSink, type ServerWebSocket, type Socket } from "bun";
 import type { SocketInfo } from "./protocol";
 import logger from "./logger";
 
@@ -42,29 +41,32 @@ let socket: Socket<undefined> | null = null;
 
 const server = Bun.serve({
   routes: {
-    "/api/agora": new Response(
-      JSON.stringify({
-        app_id: AGORA_APP_ID,
-        channel_name: AGORA_CHANNEL_NAME,
-        token: RtcTokenBuilder.buildTokenWithUid(
-          AGORA_APP_ID,
-          AGORA_APP_CERT,
-          AGORA_CHANNEL_NAME,
-          AGORA_UID,
-          RtcRole.PUBLISHER,
-          AGORA_TOKEN_EXPIRE,
-          AGORA_TOKEN_EXPIRE,
-        ),
-        uid: AGORA_UID,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
+    "/api/agora": () => {
+      const uid = Math.floor(Math.random() * 1000000000);
+      return new Response(
+        JSON.stringify({
+          appid: AGORA_APP_ID,
+          channel: AGORA_CHANNEL_NAME,
+          token: RtcTokenBuilder.buildTokenWithUid(
+            AGORA_APP_ID,
+            AGORA_APP_CERT,
+            AGORA_CHANNEL_NAME,
+            uid,
+            RtcRole.PUBLISHER,
+            AGORA_TOKEN_EXPIRE,
+            AGORA_TOKEN_EXPIRE,
+          ),
+          uid,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET",
+          },
         },
-      },
-    ),
+      );
+    },
     "/ws": (req, server) => {
       if (server.upgrade(req)) return undefined;
       return new Response("WebSocket not supported");
@@ -116,10 +118,8 @@ const server = Bun.serve({
       switch (data.type) {
         case "speed":
           const { left, right } = data;
-          socket.write(createPayload(left, right));
+          socket.write(createPayload(left, right), 0, 15);
           break;
-        case "heartbeat":
-          socket.write(createPayload(500, 500));
       }
     },
     close: async (_) => {

@@ -7,8 +7,7 @@ const SpeedData = z.object({
   left: Speed,
   right: Speed,
 });
-const Heartbeat = z.object({ type: z.literal("heartbeat") });
-const Data = z.discriminatedUnion("type", [SpeedData, Heartbeat]);
+const Data = z.discriminatedUnion("type", [SpeedData]);
 type DataType = z.infer<typeof Data>;
 
 const validateData = (data: unknown) => {
