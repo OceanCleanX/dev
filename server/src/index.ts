@@ -7,13 +7,14 @@ import {
   AGORA_TOKEN_EXPIRE,
   TCP_REMOTE_ADDR,
   TCP_REMOTE_PORT,
+  throwIfMissing,
 } from "./env";
 import validateData from "./validate";
 import { createPayload, parseResponse } from "./protocol";
-
-import { ArrayBufferSink, type ServerWebSocket, type Socket } from "bun";
-import type { SocketInfo } from "./protocol";
 import logger from "./logger";
+
+import type { ServerWebSocket, Socket } from "bun";
+import type { SocketInfo } from "./protocol";
 
 type ServerResponse<T> =
   | { success: true; data: T }
@@ -130,6 +131,11 @@ const server = Bun.serve({
       logger.info("Client disconnected");
     },
   },
+  ...(process.env.TLS_CERT &&
+    process.env.TLS_KEY && {
+      certFile: Bun.file(process.env.TLS_CERT ?? throwIfMissing("TLS_CERT")),
+      keyFile: Bun.file(process.env.TLS_KEY ?? throwIfMissing("TLS_KEY")),
+    }),
 });
 
 logger.info(`Websocket server started on ${server.hostname}:${server.port}`);
