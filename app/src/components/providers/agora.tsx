@@ -9,11 +9,13 @@ type AgoraInfo = {
   uid: number | string;
 };
 
+const apiUrl = import.meta.env.PROD
+  ? `https://${import.meta.env.VITE_SERVER_URL}/api/agora`
+  : `http://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/api/agora`;
+
 const AutoJoin = () => {
   useJoin(async () => {
-    const res = await fetch(
-      `http://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/api/agora`,
-    );
+    const res = await fetch(apiUrl);
     return (await res.json()) as AgoraInfo;
   });
 
