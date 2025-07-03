@@ -10,7 +10,6 @@ const Camera: FC<ComponentPropsWithRef<"div">> = ({ className, ...props }) => {
   const client = useRTCClient();
   const remoteUsers = useRemoteUsers(client);
   const {
-    isLoading,
     videoTracks: [videoTrack],
   } = useRemoteVideoTracks(remoteUsers);
 

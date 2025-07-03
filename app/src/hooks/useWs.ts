@@ -1,9 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import useWebSocket from "react-use-websocket";
 
-import type { SocketInfo } from "./useSocketInfo";
+import type { SocketInfoType } from "./useSocketInfo";
 
-type ResponseData = SocketInfo;
+type ResponseData = SocketInfoType;
 type ServerResponse =
   | { success: true; data: ResponseData }
   | { success: false; msg: string };
