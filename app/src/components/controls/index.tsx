@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
 
-import useWs from "../../hooks/useWs";
+import useWs from "@/hooks/useWs";
 
-import { SPEED_MID } from "./shared";
+import { speedAtom } from "./shared";
 import ConstantControl from "./constant";
+import ManualControl from "./manual";
 
 import type { ComponentPropsWithRef, FC } from "react";
 import type { ControlComponent } from "./shared";
@@ -38,8 +39,6 @@ const ControlModeSwitch = () => {
   );
 };
 
-const ManualControl: ControlComponent = () => <>Not yet implemented</>;
-
 const AutoControl: ControlComponent = () => <>Not yet implemented</>;
 
 const controlComponents = [ManualControl, ConstantControl, AutoControl];
@@ -47,7 +46,7 @@ const Control: FC<ComponentPropsWithRef<"div">> = (props) => {
   const { sendJsonMessage } = useWs();
 
   const controlMode = useAtomValue(controlModeAtom);
-  const [speed, setSpeed] = useState<[number, number]>([SPEED_MID, SPEED_MID]);
+  const [speed, setSpeed] = useAtom(speedAtom);
 
   useEffect(() => {
     const id = setInterval(

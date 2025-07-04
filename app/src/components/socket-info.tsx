@@ -1,6 +1,6 @@
-import useSocketInfo from "../hooks/useSocketInfo";
+import useSocketInfo from "@/hooks/useSocketInfo";
 
-import type { SocketInfoType } from "../hooks/useSocketInfo";
+import type { SocketInfoType } from "@/hooks/useSocketInfo";
 
 const socketInfoKeys2Text: {
   [key in keyof Omit<SocketInfoType, "type">]: string;

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/react-pacer": "^0.8.0",
     "@tanstack/react-query": "^5.81.5",
     "agora-rtc-react": "^2.4.0",
     "jotai": "^2.12.5",
@@ -18,6 +19,7 @@
     "react-dom": "^19.1.0",
     "react-use-websocket": "^4.13.0",
     "tailwindcss": "^4.1.11",
+    "vite-tsconfig-paths": "^5.1.4",
     "zod": "^3.25.71"
   },
   "devDependencies": {
