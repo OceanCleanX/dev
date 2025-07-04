@@ -11,11 +11,13 @@ const SPEED_MIN = 0;
 const SPEED_MAX = 1000;
 
 const limitSpeed = (s: number) => Math.max(SPEED_MIN, Math.min(SPEED_MAX, s));
+const reverseSpeed = (s: number) => SPEED_MAX - s;
 const createPayload = (left: number, right: number): Uint8Array => {
   const payload = new Uint8Array(PAYLOAD_TEMPLATE);
 
   left = limitSpeed(left);
   right = limitSpeed(right);
+  right = reverseSpeed(right);
 
   payload[8] = (left >> 8) & 0xff;
   payload[9] = left & 0xff;
