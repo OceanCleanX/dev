@@ -3,10 +3,12 @@ import { Control, ControlModeSwitch } from "@/components/controls";
 import Camera from "@/components/camera";
 import SocketInfo from "@/components/socket-info";
 import useSpeed from "@/components/controls/useSpeed";
+import { useToastStack } from "./components/toast";
 
 const App = () => {
   useWs();
   const speed = useSpeed();
+  const { present } = useToastStack();
 
   return (
     <div className="h-screen w-screen grid grid-cols-9 grid-rows-[24] gap-4 p-4">
@@ -22,6 +24,13 @@ const App = () => {
           <span className="font-semibold">Speed: </span>
           <span className="font-mono">{`[${speed[0]}, ${speed[1]}]`}</span>
         </div>
+        <button
+          onClick={() => {
+            present({ content: <>test</> });
+          }}
+        >
+          test toast
+        </button>
       </div>
       <Control className="col-span-9 row-span-7" />
     </div>
