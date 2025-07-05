@@ -7,6 +7,8 @@ import {
   AGORA_TOKEN_EXPIRE,
   TCP_REMOTE_ADDR,
   TCP_REMOTE_PORT,
+  WS_REMOTE_ADDR,
+  WS_REMOTE_PORT,
 } from "./env";
 import validateData from "./validate";
 import { createPayload, parseResponse } from "./protocol";
@@ -38,6 +40,7 @@ const sendError = <U = unknown>(ws: ServerWebSocket<U>, message: string) =>
 
 let occupied = false;
 let socket: Socket<undefined> | null = null;
+let remote_ws: WebSocket | null = null;
 
 const server = Bun.serve({
   fetch: () => new Response("good"),
@@ -99,6 +102,10 @@ const server = Bun.serve({
         },
       });
       logger.info("Connected to TCP server");
+
+      remote_ws = new WebSocket(`ws://${WS_REMOTE_ADDR}:${WS_REMOTE_PORT}`);
+      // forward messages from remote WebSocket to local WebSocket
+      remote_ws.addEventListener("message", (ev) => ws.send(ev.data));
     },
     message: async (ws, message) => {
       logger.debug(`Received data: ${message}`);
@@ -124,13 +131,15 @@ const server = Bun.serve({
       }
     },
     close: async (_) => {
+      logger.info("Client disconnected");
       occupied = false;
       socket?.close?.();
       socket = null;
-      logger.info("Client disconnected");
+      remote_ws?.close?.();
+      remote_ws = null;
     },
   },
 });
 
-logger.info(`Websocket server started on ${server.hostname}:${server.port}`);
+logger.info(`Server started on ${server.hostname}:${server.port}`);
 logger.info("Press ctrl+c to stop the server");
