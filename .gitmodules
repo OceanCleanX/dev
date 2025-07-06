@@ -1,0 +1,9 @@
+[submodule "jetson-server/external/wsServer"]
+	path = jetson-server/external/wsServer
+	url = https://github.com/Theldus/wsServer
+[submodule "jetson-server/external/cJSON"]
+	path = jetson-server/external/cJSON
+	url = https://github.com/DaveGamble/cJSON.git
+[submodule "jetson-server/external/log.c"]
+	path = jetson-server/external/log.c
+	url = https://github.com/rxi/log.c.git
