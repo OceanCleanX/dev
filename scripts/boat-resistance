@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+import math
+
+# boat parameters
+MAX_SPEED = 0.5  # boat maximum speed, m/s
+LENGTH = 1.3  # boat maximum length, m
+DIAMETER = 0.11  # catamaran diameter, m
+RADIUS = DIAMETER / 2  # catamaran radius, m
+SURFACE_AREA = (
+    math.pi * DIAMETER * LENGTH + 2 * math.pi * RADIUS**2
+)  # catamaran surface area, m^2
+INNER_DISTANCE = 0.277  # catamaran inner distance, m
+
+# other constants
+WATER_DENSITY = 1025  # water density, kg/m^3
+WATER_VISCOSITY = 1.002e-3  # water viscosity at 20°C, Pa.s
+GRAVITY = 9.81  # gravity, m/s^2
+
+reynolds = WATER_DENSITY * MAX_SPEED * LENGTH / WATER_VISCOSITY
+friction_coefficient = 0.075 / (math.log10(reynolds) - 2) ** 2
+frictional_resistance = (
+    0.5 * WATER_DENSITY * MAX_SPEED**2 * SURFACE_AREA * friction_coefficient
+)
+# wave resistance with empirical formula
+k = 0.06  # k is empirical constant
+wave_resistance = k * WATER_DENSITY * GRAVITY * MAX_SPEED**2 * INNER_DISTANCE / LENGTH
+
+resistance = frictional_resistance + wave_resistance
+print(f"Frictional resistance: {frictional_resistance:.2f} N")
