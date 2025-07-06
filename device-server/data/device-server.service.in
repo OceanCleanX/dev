@@ -1,0 +1,18 @@
+[Unit]
+Description = device-server
+After = network.target syslog.target
+Wants = network.target
+
+[Service]
+Type = simple
+ExecStart = @EXECUTABLE@
+WorkingDirectory = @ROOT_DIR@
+
+Restart = on-failure
+RestartSec = 10
+
+StandardOutput = syslog
+StandardError = syslog
+
+[Install]
+WantedBy = multi-user.target
