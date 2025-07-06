@@ -121,12 +121,21 @@ const server = Bun.serve({
         return;
       }
 
+      if (!remote_ws) {
+        sendError(ws, "Remote WebSocket is not connected");
+        return;
+      }
+
       const data = result.data;
 
       switch (data.type) {
         case "speed":
           const { left, right } = data;
           socket.write(createPayload(left, right), 0, 15);
+          break;
+        case "jetson":
+          const jetsonData = data.data;
+          remote_ws.send(JSON.stringify(jetsonData));
           break;
       }
     },
