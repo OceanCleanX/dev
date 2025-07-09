@@ -9,12 +9,14 @@ type AgoraInfo = {
   uid: number | string;
 };
 
-const apiUrl = import.meta.env.PROD
-  ? `https://${import.meta.env.VITE_SERVER_URL}/api/agora`
-  : `http://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/api/agora`;
+const apiUrl =
+  process.env.NODE_ENV === "production"
+    ? `https://${process.env.NEXT_PUBLIC_SERVER_URL}/api/agora`
+    : `http://${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/agora`;
 
 const AutoJoin = () => {
   useJoin(async () => {
+    console.log(apiUrl);
     const res = await fetch(apiUrl);
     return (await res.json()) as AgoraInfo;
   });
