@@ -8,9 +8,10 @@ type ServerResponse =
   | { success: true; data: ResponseData }
   | { success: false; msg: string };
 
-const WS_URL = import.meta.env.PROD
-  ? `wss://${import.meta.env.VITE_SERVER_URL}/ws`
-  : `ws://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/ws`;
+const WS_URL =
+  process.env.NODE_ENV === "production"
+    ? `wss://${process.env.NEXT_PUBLIC_SERVER_URL}/ws`
+    : `ws://${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/ws`;
 
 const useWs = () => {
   const client = useQueryClient();

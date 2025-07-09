@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
 
-import useWs from "@/hooks/useWs";
-
 import { speedAtom } from "./shared";
 import ConstantControl from "./constant";
 import ManualControl from "./manual";
+import useWs from "../useWs";
 
 import type { ComponentPropsWithRef, FC } from "react";
 import type { ControlComponent } from "./shared";

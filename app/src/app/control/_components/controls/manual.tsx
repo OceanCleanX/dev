@@ -114,8 +114,8 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
   const calcSpeedHandler = useThrottledCallback(
     (t: number, direction: number) => {
       const speed = calcSpeed(t); // speed ranges from 0 to SPEED_MAX
-      const left = Math.round(speed * (1 - direction));
-      const right = Math.round(speed * (1 + direction));
+      const left = Math.round(speed * (1 + direction));
+      const right = Math.round(speed * (1 - direction));
       setSpeed([limitSpeed(left), limitSpeed(right)]);
     },
     { wait: 20 },
