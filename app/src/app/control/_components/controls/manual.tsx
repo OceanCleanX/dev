@@ -51,13 +51,13 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
   const [direction, setDirection] = useState(0);
 
   // reset t and direction if keys are not pressed
-  const [intervalId, setIntervalId] = useState<number | null>(null);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const resetHandler = useCallback(() => {
     setT(reset);
     setDirection(reset);
   }, []);
   const _startReset = useDebouncedCallback(
-    (id: number | null) => {
+    (id: NodeJS.Timeout | null) => {
       if (id) {
         clearInterval(id);
         setIntervalId(null);
