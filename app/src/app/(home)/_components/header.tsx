@@ -19,9 +19,6 @@ const Header = () => (
               className="top-px relative group-data-[state=open]:-rotate-180 transition-transform duration-150 ease-in-out"
             />
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className="absolute left-0 top-0 w-36 p-2 bg-white drop-shadow-lg">
-            Those are the products we offer:
-          </NavigationMenu.Content>
         </NavigationMenu.Item>
         <NavigationMenu.Item>Docs</NavigationMenu.Item>
         <NavigationMenu.Item>Contact</NavigationMenu.Item>
