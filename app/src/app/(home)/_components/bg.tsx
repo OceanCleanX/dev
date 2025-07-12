@@ -14,6 +14,9 @@ import { BackSide, Group } from "three";
 
 import type { Vector3 } from "three";
 
+const BLUE = "#66ccff";
+const BLUE_LIGHT = "#94E1FD";
+
 // adapted from https://github.com/pmndrs/website/blob/main/components/scenes/caustic/CausticScene.tsx
 const Env = () => {
   const ref = useRef<Group>(null!);
@@ -44,8 +47,12 @@ const Env = () => {
       frames={Infinity}
       resolution={256}
       background
-      backgroundBlurriness={0.8}
+      backgroundBlurriness={0.85}
     >
+      <Sphere scale={20}>
+        <meshBasicMaterial color="#ffffff" side={BackSide} />
+      </Sphere>
+
       <Sphere args={[10]} scale={100}>
         <meshBasicMaterial
           color="#d0d0d0"
@@ -54,7 +61,6 @@ const Env = () => {
           opacity={0}
         />
       </Sphere>
-
       <Lightformer
         intensity={4}
         rotation-x={Math.PI / 2}
@@ -67,7 +73,6 @@ const Env = () => {
         position={[0, 5, -9]}
         scale={[10, 10, 1]}
       />
-
       <group rotation={[Math.PI / 2, 1, 0]}>
         {[2, -2, 2, -4, 2, -5, 2, -9].map((x, i) => (
           <Lightformer
@@ -97,15 +102,22 @@ const Env = () => {
           scale={[50, 2, 1]}
         />
       </group>
-
       <group ref={ref}>
         <Lightformer
           intensity={5}
           form="ring"
-          color="#66ccff"
+          color={BLUE}
           rotation-y={Math.PI / 2}
           position={[-5, 2, -1]}
           scale={[10, 10, 1]}
+        />
+        <Lightformer
+          intensity={5}
+          form="ring"
+          color={BLUE_LIGHT}
+          rotation-y={-Math.PI / 2}
+          position={[5, -2, 1]}
+          scale={[10, 10, 10]}
         />
       </group>
     </Environment>
@@ -118,7 +130,7 @@ const Bg = () => (
       frames={100}
       alphaTest={0.75}
       opacity={0.8}
-      color="#66ccff"
+      color={BLUE}
       scale={20}
       position={[0, -0.005, 0]}
     >

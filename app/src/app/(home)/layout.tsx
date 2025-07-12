@@ -7,7 +7,10 @@ const Layout: FC<PropsWithChildren> = ({ children }) => (
   <div className="flex flex-col min-h-screen relative">
     <Header />
     {children}
-    <div className="absolute w-screen h-screen -z-10" aria-hidden>
+    <div
+      className="absolute w-screen h-screen -z-10 brightness-110 saturate-150"
+      aria-hidden
+    >
       <Bg />
     </div>
   </div>
