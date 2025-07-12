@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - app/**
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
