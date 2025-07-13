@@ -47,12 +47,8 @@ const Env = () => {
       frames={Infinity}
       resolution={256}
       background
-      backgroundBlurriness={0.85}
+      backgroundBlurriness={0.9}
     >
-      <Sphere scale={20}>
-        <meshBasicMaterial color="#ffffff" side={BackSide} />
-      </Sphere>
-
       <Sphere args={[10]} scale={100}>
         <meshBasicMaterial
           color="#d0d0d0"

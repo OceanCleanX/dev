@@ -8,7 +8,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => (
     <Header />
     {children}
     <div
-      className="absolute w-screen h-screen -z-10 brightness-110 saturate-150"
+      className="absolute w-screen h-screen -z-10 brightness-[115%] contrast-125 hue-rotate-15 blur-3xl"
       aria-hidden
     >
       <Bg />
