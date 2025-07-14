@@ -6,6 +6,11 @@
     "login": "登陆"
   },
   "control": {
+    "modes": {
+      "Manual": "手动",
+      "Constant": "固定",
+      "Auto": "自动"
+    },
     "info": {
       "boat": {
         "section-title": "船只信息",
