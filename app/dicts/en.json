@@ -1,8 +1,8 @@
 {
   "header": {
-    "showcase": "Showcase",
-    "products": "Products",
-    "docs": "Docs",
-    "contact": "Contact"
+    "about": "About Us",
+    "models": "Models",
+    "support": "Support Us"
+    "login": "Login",
   }
 }

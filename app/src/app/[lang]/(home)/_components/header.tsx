@@ -13,10 +13,14 @@ const Header = () => {
         <NavigationMenu.Item className={linkCls}>
           Ocean CleanX
         </NavigationMenu.Item>
-        <NavigationMenu.Item className={linkCls}>About Us</NavigationMenu.Item>
-        <NavigationMenu.Item className={linkCls}>Models</NavigationMenu.Item>
         <NavigationMenu.Item className={linkCls}>
-          Support Us
+          {t("about")}
+        </NavigationMenu.Item>
+        <NavigationMenu.Item className={linkCls}>
+          {t("models")}
+        </NavigationMenu.Item>
+        <NavigationMenu.Item className={linkCls}>
+          {t("support")}
         </NavigationMenu.Item>
         <div className="flex-1" />
         <NavigationMenu.Item>
