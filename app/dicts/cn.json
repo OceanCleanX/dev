@@ -2,7 +2,25 @@
   "header": {
     "about": "关于",
     "models": "型号",
-    "support": "支持我们"
-    "login": "登陆",
+    "support": "支持我们",
+    "login": "登陆"
+  },
+  "control": {
+    "info": {
+      "boat": {
+        "section-title": "船只信息",
+        "delay": "延迟（毫秒）",
+        "voltage": "电压（伏特）",
+        "wifi_strength": "信号强度（条）",
+        "gyro_x": "陀螺仪 X (m/s²)",
+        "gyro_y": "陀螺仪 Y (m/s²)",
+        "gyro_z": "陀螺仪 Z (m/s²)"
+      },
+      "control": {
+        "section-title": "控制",
+        "mode": "操控模式",
+        "motor": "马达 PWM 波频（归一化）"
+      }
+    }
   }
 }
