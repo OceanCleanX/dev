@@ -2,6 +2,6 @@ import { useAtomValue } from "jotai";
 
 import { speedAtom } from "./shared";
 
-const useSpeed = () => useAtomValue(speedAtom);
+const useMotorWave = () => useAtomValue(speedAtom);
 
-export default useSpeed;
+export default useMotorWave;

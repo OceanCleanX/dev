@@ -1,8 +1,26 @@
 {
   "header": {
-    "showcase": "Showcase",
-    "products": "Products",
-    "docs": "Docs",
-    "contact": "Contact"
+    "about": "About Us",
+    "models": "Models",
+    "support": "Support Us",
+    "login": "Login"
+  },
+  "control": {
+    "info": {
+      "boat": {
+        "section-title": "Boat",
+        "delay": "Delay (ms)",
+        "voltage": "Voltage (V)",
+        "wifi_strength": "WiFi Strength (bar)",
+        "gyro_x": "Gyro X (m/s²)",
+        "gyro_y": "Gyro Y (m/s²)",
+        "gyro_z": "Gyro Z (m/s²)"
+      },
+      "control": {
+        "section-title": "Control",
+        "mode": "Mode",
+        "motor": "Normalized Motor Wave"
+      }
+    }
   }
 }
