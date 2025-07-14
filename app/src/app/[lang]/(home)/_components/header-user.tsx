@@ -14,7 +14,7 @@ const HeaderUser = () => {
     <div className="h-12 flex items-center justify-between">
       {!user ? (
         <Link
-          className="bg-[#318591] rounded-lg font-medium text-white"
+          className="bg-primary rounded-lg font-medium text-white"
           href="/control"
         >
           {t("login")}
