@@ -6,6 +6,11 @@
     "login": "Login"
   },
   "control": {
+    "modes": {
+      "Manual": "Manual",
+      "Constant": "Constant",
+      "Auto": "Auto"
+    },
     "info": {
       "boat": {
         "section-title": "Boat",
