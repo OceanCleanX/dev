@@ -6,6 +6,19 @@
     "login": "Login"
   },
   "control": {
+    "log": {
+      "title": "Log",
+      "agora-join": "Attempting to join Agora channel...",
+      "agora-fetched": "Successfully fetched Agora info",
+      "agora-error": "Failed to fetch Agora info",
+      "ws-server-error": "WebSocket error: ${}",
+      "ws-error": "Unable to connect to WebSocket server"
+    },
+    "modes": {
+      "Manual": "Manual",
+      "Constant": "Constant",
+      "Auto": "Auto"
+    },
     "info": {
       "boat": {
         "section-title": "Boat",
