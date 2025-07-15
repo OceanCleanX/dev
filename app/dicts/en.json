@@ -1,0 +1,39 @@
+{
+  "header": {
+    "about": "About Us",
+    "models": "Models",
+    "support": "Support Us",
+    "login": "Login"
+  },
+  "control": {
+    "log": {
+      "title": "Log",
+      "agora-join": "Attempting to join Agora channel...",
+      "agora-fetched": "Successfully fetched Agora info",
+      "agora-error": "Failed to fetch Agora info",
+      "ws-server-error": "WebSocket error: ${}",
+      "ws-error": "Unable to connect to WebSocket server"
+    },
+    "modes": {
+      "Manual": "Manual",
+      "Constant": "Constant",
+      "Auto": "Auto"
+    },
+    "info": {
+      "boat": {
+        "section-title": "Boat",
+        "delay": "Delay (ms)",
+        "voltage": "Voltage (V)",
+        "wifi_strength": "WiFi Strength (bar)",
+        "gyro_x": "Gyro X (m/s²)",
+        "gyro_y": "Gyro Y (m/s²)",
+        "gyro_z": "Gyro Z (m/s²)"
+      },
+      "control": {
+        "section-title": "Control",
+        "mode": "Mode",
+        "motor": "Normalized Motor Wave"
+      }
+    }
+  }
+}

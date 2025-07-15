@@ -7,14 +7,18 @@
     "dev": "bun run src/index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "^24.0.13",
+    "@types/ws": "^8.18.1"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "agora-token": "^2.0.5",
+    "bufferutil": "^4.0.9",
     "pino": "^9.7.0",
+    "ws": "^8.18.3",
     "zod": "^3.25.67",
     "zod_utilz": "^0.8.4"
   }
