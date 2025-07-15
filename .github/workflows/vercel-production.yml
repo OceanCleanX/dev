@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - production
+    paths:
+      - app/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest

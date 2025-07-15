@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  ComponentProps,
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   useDebouncedCallback,
   useThrottledCallback,
@@ -7,6 +14,28 @@ import {
 import { SPEED_MAX, SPEED_MIN } from "./shared";
 
 import type { ControlComponent } from "./shared";
+import cn from "@/lib/cn";
+
+const TRIANGLE_SIZE = "1.5rem";
+const RightTriangle = memo(
+  forwardRef<HTMLDivElement, Omit<ComponentProps<"div">, "children">>(
+    ({ style, ...props }, ref) => (
+      <div
+        ref={ref}
+        style={{
+          transformOrigin: "50% calc(100% + 2.75rem)",
+          borderLeft: `${TRIANGLE_SIZE} solid transparent`,
+          borderRight: `${TRIANGLE_SIZE} solid transparent`,
+          borderBottom: `calc(${TRIANGLE_SIZE} * 2 * 0.866) solid var(--color-primary)`,
+          borderTop: `${TRIANGLE_SIZE} solid transparent`,
+          ...style,
+        }}
+        {...props}
+      />
+    ),
+  ),
+);
+RightTriangle.displayName = "RightTriangle";
 
 // constants for speed calculation
 const INCREMENT = 1;
@@ -45,6 +74,7 @@ const limitSpeed = (s: number) => Math.max(SPEED_MIN, Math.min(SPEED_MAX, s));
 const hasOneOfKeys = (keys: Set<string>, ...keysToCheck: string[]) =>
   keysToCheck.some(Set.prototype.has.bind(keys));
 
+const SELECTED_CLS = "brightness-125";
 const ManualControl: ControlComponent = ({ setSpeed }) => {
   const [keys, _setKeys] = useState(() => new Set<string>());
   const [t, setT] = useState(0);
@@ -78,14 +108,29 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
       func.call(next, val);
       return next;
     });
+  // callbacks to check if keys are pressed
+  const isUp = useCallback(() => hasOneOfKeys(keys, "ArrowUp", "w"), [keys]);
+  const isDown = useCallback(
+    () => hasOneOfKeys(keys, "ArrowDown", "s"),
+    [keys],
+  );
+  const isLeft = useCallback(
+    () => hasOneOfKeys(keys, "ArrowLeft", "a"),
+    [keys],
+  );
+  const isRight = useCallback(
+    () => hasOneOfKeys(keys, "ArrowRight", "d"),
+    [keys],
+  );
+  // handle key events
   const handleKeys = useCallback(() => {
-    if (hasOneOfKeys(keys, "ArrowUp", "w")) setT(incT);
-    if (hasOneOfKeys(keys, "ArrowDown", "s")) setT(decT);
-    if (hasOneOfKeys(keys, "ArrowLeft", "a")) setDirection(decDirection);
-    if (hasOneOfKeys(keys, "ArrowRight", "d")) setDirection(incDirection);
+    if (isUp()) setT(incT);
+    if (isDown()) setT(decT);
+    if (isLeft()) setDirection(decDirection);
+    if (isRight()) setDirection(incDirection);
 
     startReset();
-  }, [keys, startReset]);
+  }, [isDown, isLeft, isRight, isUp, startReset]);
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       setKeys(Set.prototype.add, event.key);
@@ -124,7 +169,20 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
     calcSpeedHandler(t, direction);
   }, [calcSpeedHandler, direction, t]);
 
-  return <></>;
+  return (
+    <div className="relative -translate-y-20">
+      <RightTriangle className={cn("absolute", { [SELECTED_CLS]: isUp() })} />
+      <RightTriangle
+        className={cn("absolute rotate-90", { [SELECTED_CLS]: isRight() })}
+      />
+      <RightTriangle
+        className={cn("absolute -rotate-90", { [SELECTED_CLS]: isLeft() })}
+      />
+      <RightTriangle
+        className={cn("absolute rotate-180", { [SELECTED_CLS]: isDown() })}
+      />
+    </div>
+  );
 };
 
 export default ManualControl;

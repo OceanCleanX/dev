@@ -1,5 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import useWebSocket from "react-use-websocket";
+import { useAddLog } from "./log";
+import { useTranslations } from "next-intl";
 
 import type { SocketInfoType } from "./useSocketInfo";
 
@@ -15,6 +17,8 @@ const WS_URL =
 
 const useWs = () => {
   const client = useQueryClient();
+  const addLog = useAddLog();
+  const t = useTranslations("control.log");
 
   return useWebSocket(WS_URL, {
     share: true,
@@ -22,13 +26,14 @@ const useWs = () => {
       const data = JSON.parse(ev.data) as ServerResponse;
 
       if (!data.success) {
-        console.error("WebSocket error:", data.msg);
+        addLog(t("ws-server-error"), data.msg);
         return;
       }
 
       const { type, ...rest } = data.data;
       client.setQueryData(["ws", type], rest);
     },
+    onError: () => addLog(t("ws-error")),
   });
 };
 

@@ -1,0 +1,112 @@
+\documentclass[convert = false]{article}
+\usepackage{circuitikz}
+\usepackage{amsmath}
+
+\makeatletter
+
+% switch2
+\ctikzset{bipoles/switch2/height/.initial=.5}
+\ctikzset{bipoles/switch2/width/.initial=.50}
+\pgfcircdeclarebipole{}{}{myswitch}{%
+\ctikzvalof{bipoles/switch2/height}}{\ctikzvalof{bipoles/switch2/width}}{
+        \pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+        \pgfpathmoveto{\pgfpoint{\pgf@circ@res@left}{0pt}}
+        \pgfpathlineto{\pgfpoint{\pgf@circ@res@right}{.75\pgf@circ@res@up}}
+        \pgfusepath{draw}
+        %
+        \pgfsetlinewidth{\pgfstartlinewidth}
+        \pgftransformshift{\pgfpoint{\pgf@circ@res@left}{0pt}}
+        \pgfnode{ocirc}{center}{}{}{\pgfusepath{draw}}
+        \pgftransformshift{\pgfpoint{2\pgf@circ@res@right}{0pt}}
+        \pgfnode{ocirc}{center}{}{}{\pgfusepath{draw}}
+}
+\def\pgf@circ@myswitch@path#1{\pgf@circ@bipole@path{myswitch}{#1}}
+\compattikzset{switch2/.style = {\circuitikzbasekey,
+/tikz/to path=\pgf@circ@myswitch@path}}
+
+\begin{document}
+\begin{center}
+\begin{circuitikz}
+
+\draw
+    (4, 0) node [transformer core](T1) {}
+    ($(T1.A1)!0.5!(T1.A2)$) node{$12V$}
+    (6, 0) node [transformer core](T2) {}
+    (7.5, -4) node[draw, text width=3cm, minimum height=2cm, align=center] (yws) {Multi-functional integrated control panel}
+    ($(yws.west)!0.5!(yws.north west)$) coordinate (yws1)
+    ($(yws.west)!0.5!(yws.south west)$) coordinate (yws2)
+    (3.75, -4) node[draw, text width=1.5cm, minimum height=1.75cm, align=center] (jetson) {Jetson Nano}
+    ($(jetson.south)!0.5!(jetson.south west)$) coordinate (jetson1)
+    ($(jetson.south)!0.5!(jetson.south east)$) coordinate (jetson2)
+    ($(T2.B1)!0.5!(T2.B2)$) node{$8V$}
+    (jetson1) ++ (-2.25, -1.25) node[draw, minimum width=2cm, minimum height=1.1cm, align=center] (camera) {Camera}
+    ($(camera.east)!0.5!(camera.north east)$) coordinate (camera1)
+    ($(camera.east)!0.5!(camera.south east)$) coordinate (camera2)
+    (T1.B1)
+        -- (T2.A1)
+    (T1.B2)
+        -- (T2.A2)
+    ($(T1.B1)!0.5!(T2.A1)$)
+        -- ++ (0, 1) coordinate(tmp1)
+    (T1.A1)
+        -- ++ (-2.25, 0) coordinate(tmp)
+        to[Telmech=M1, n=motor, name=M1] (tmp|-T1.A2)
+        -- (T1.A2)
+    (tmp)
+        -- ++ (1.25, 0) coordinate(tmp)
+        to[Telmech=M2, n=motor, name=M2] (tmp|-T1.A2)
+        -- (T1.A2)
+    (T2.B1)
+        -- ++ (1, 0) coordinate(tmp)
+        -- (tmp|-yws.north)
+    (T2.B2)
+        -- (T2.B2|-yws.north)
+    ($(T1.B2)!0.5!(T2.A2)$)
+        -- ++ (0, -1) coordinate(tmp)
+    (tmp1)
+        to[switch2] ++ (-6.5, 0) coordinate(tmp1)
+        to[battery1, name=B1] (tmp1|-tmp) coordinate(tmp2)
+        -- (tmp)
+    (B1) ++ (-1.25, 0.15) node{Charging}
+    (B1) ++ (-1.25, -0.15) node{Station}
+    (tmp1)
+        -- ++ (-3, 0) coordinate(tmp1)
+        to[battery, l_=$24V$] (tmp1|-tmp)
+        -- (tmp)
+    (yws1)
+        -- (jetson.east|-yws1)
+    ;
+\draw[red]
+    (yws2)
+        -- (jetson.east|-yws2)
+    ;
+\draw[blue]
+    (jetson.west)
+        -- ++ (-4, 0) coordinate(tmp)
+        to[sqV, l=PWM] ++ (-3, 0)
+        node[ground]{}
+    (M1|-tmp)
+        -- (M1)
+    (M2|-tmp)
+        -- (M2)
+    ;
+\draw[-latex]
+    (jetson1)
+        -- ++ (0, -8) coordinate(tmp)
+    ;
+\draw
+    (tmp|-camera1)
+        -- (camera1)
+    ;
+\draw[red, -latex]
+    (jetson2)
+        -- ++ (0, -8) coordinate(tmp1)
+    ;
+\draw[red]
+    (tmp1|-camera2)
+        -- (camera2)
+    ;
+\ctikztunablearrow{1}{1}{150}{B1}
+\end{circuitikz}
+\end{center}
+\end{document}

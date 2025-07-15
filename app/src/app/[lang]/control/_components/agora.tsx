@@ -1,4 +1,6 @@
 import AgoraRTC, { AgoraRTCProvider, useJoin } from "agora-rtc-react";
+import { useAddLog } from "./log";
+import { useTranslations } from "next-intl";
 
 import type { FC, PropsWithChildren } from "react";
 
@@ -15,10 +17,19 @@ const apiUrl =
     : `http://${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/agora`;
 
 const AutoJoin = () => {
+  const t = useTranslations("control.log");
+  const addLog = useAddLog();
+
   useJoin(async () => {
-    console.log(apiUrl);
-    const res = await fetch(apiUrl);
-    return (await res.json()) as AgoraInfo;
+    addLog(t("agora-join"));
+    try {
+      const res = await fetch(apiUrl);
+      addLog(t("agora-fetched"));
+      return (await res.json()) as AgoraInfo;
+    } catch {
+      addLog(t("agora-error"));
+      return {} as AgoraInfo;
+    }
   });
 
   return null;

@@ -8,6 +8,7 @@ import useWs from "../useWs";
 
 import type { ComponentPropsWithRef, FC } from "react";
 import type { ControlComponent } from "./shared";
+import { useTranslations } from "next-intl";
 
 enum ControlMode {
   Manual,
@@ -22,6 +23,7 @@ const ControlModeKeyValues = Object.entries(ControlMode).filter(
 
 const controlModeAtom = atom<ControlMode>(ControlMode.Manual);
 const ControlModeSwitch = () => {
+  const t = useTranslations("control.modes");
   const [controlMode, setControlMode] = useAtom(controlModeAtom);
 
   return (
@@ -31,7 +33,7 @@ const ControlModeSwitch = () => {
     >
       {ControlModeKeyValues.map(([key, value]) => (
         <option key={key} value={value}>
-          {key}
+          {t(key)}
         </option>
       ))}
     </select>
