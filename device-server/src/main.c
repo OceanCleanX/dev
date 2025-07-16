@@ -17,7 +17,7 @@
 #define PORT 4000
 #define MSG_DATA_BUFFER_SIZE 256
 #define OUTPUT_BUFFER_SIZE 256
-#define SUBPROCESS_DIR "./subprocess"
+#define SUBPROCESS_DIR "./subproc"
 #define CMD_MAX 64
 
 typedef struct {
