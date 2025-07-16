@@ -1,5 +1,5 @@
 BUILD_DIR := build
-EXECUTABLE := jetson-server
+EXECUTABLE := device-server
 
 CC ?= gcc
 CFLAGS := -Wall -Wextra -Werror -Wno-unused-parameter
