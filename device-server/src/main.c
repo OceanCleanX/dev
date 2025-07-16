@@ -17,7 +17,7 @@
 #define PORT 4000
 #define MSG_DATA_BUFFER_SIZE 256
 #define OUTPUT_BUFFER_SIZE 256
-#define SUBPROCESS_DIR "./subprocess"
+#define SUBPROCESS_DIR "subproc"
 #define CMD_MAX 64
 
 typedef struct {
@@ -103,7 +103,7 @@ bool init_subprocesses() {
   }
 
   while ((dir = readdir(d)) != NULL) {
-    if (dir->d_type == DT_REG) {
+    if (dir->d_type == DT_REG || dir->d_type == DT_LNK) {
       char *filename = strdup(dir->d_name);
       snprintf(filepath, sizeof(filepath), "%s/%s", SUBPROCESS_DIR, filename);
 
