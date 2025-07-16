@@ -19,11 +19,11 @@
 
 void start_subprocess(Subprocess *sp, const char *cmd) {
   if (pipe(sp->in_pipe) < 0 || pipe(sp->out_pipe) < 0)
-    error_exit("Pipe creation failed: ");
+    error_exit("Pipe creation failed");
 
   pid_t pid = fork();
   if (pid == -1)
-    error_exit("Fork failed: ");
+    error_exit("Fork failed");
 
   if (pid == 0) {
     // child
@@ -37,7 +37,7 @@ void start_subprocess(Subprocess *sp, const char *cmd) {
     basename_r((char *)cmd, cmd_basename);
     execl(cmd, cmd_basename, NULL);
 
-    error_exit("Exec failed: ");
+    log_error("Subprocess '%s' failed: %s", cmd, strerror(errno));
   } else {
     // parent
     close(sp->in_pipe[0]);
