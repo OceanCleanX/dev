@@ -2,18 +2,22 @@ import Header from "./_components/header";
 import Bg from "./_components/bg";
 
 import type { FC, PropsWithChildren } from "react";
+import Footer from "./_components/footer";
 
 const Layout: FC<PropsWithChildren> = ({ children }) => (
-  <div className="flex flex-col min-h-screen relative">
-    <Header />
-    {children}
+  <>
+    <div className="flex flex-col min-h-screen relative">
+      <Header />
+      {children}
+      <Footer />
+    </div>
     <div
-      className="absolute w-screen h-screen -z-[999] brightness-[115%] contrast-125 hue-rotate-15 blur-3xl"
+      className="top-0 left-0 fixed w-screen h-screen -z-[999] brightness-[115%] contrast-125 hue-rotate-15 blur-3xl"
       aria-hidden
     >
       <Bg />
     </div>
-  </div>
+  </>
 );
 
 export default Layout;

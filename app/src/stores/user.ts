@@ -1,5 +1,5 @@
 import { atom } from "jotai";
 
-const userAtom = atom<string | null>("Shabby");
+const userAtom = atom<string | null>(null);
 
 export default userAtom;

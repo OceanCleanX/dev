@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import sys
+import json
+
+import Jetson.GPIO as GPIO
+
+
+MSG_TYPE = "electromagnet"
+RELAY_PIN = 11  # Pin for the relay controlling the electromagnet
+
+
+def write(content):
+    return print(content, end="", flush=True)
+
+
+def succ_msg(msg: str):
+    write(json.dumps({"success": True, "data": {"type": MSG_TYPE, "message": msg}}))
+
+
+def err_msg(msg: str):
+    write(json.dumps({"success": False, "msg": msg}))
+
+
+def main():
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(RELAY_PIN, GPIO.OUT)
+
+    for line in sys.stdin:
+        match line.strip():
+            case "ON":
+                GPIO.output(RELAY_PIN, GPIO.HIGH)
+                succ_msg("Electromagnet turned ON")
+            case "OFF":
+                GPIO.output(RELAY_PIN, GPIO.LOW)
+                succ_msg("Electromagnet turned OFF")
+            case _:
+                err_msg(f"Electromagnet received unknown command: {line.strip()}")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

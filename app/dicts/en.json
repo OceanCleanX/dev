@@ -1,4 +1,26 @@
 {
+  "home": {
+    "subtitle": "Affordable Water Cleaning, One Step at a Time.",
+    "whatis": {
+      "title": "What is OceanCleanX?",
+      "start": "How we started",
+      "start-text": "We started in December 2023 as a team of high school students passionate about environmental protection, constructing a prototype powered by Nvidia Jetson Nano. The following summer, we advanced to a more robust iteration, which includes remote control and improved boat structure, conducting our first field tests in local water bodies. We focused on moving to ROS2 for better modularity and scalability while working on more robust boat structure. Finally, in 2025, we developed our latest model, integrating advanced computer vision capabilities and an automatic charging station, making it a more autonomous and efficient solution for water body cleaning.",
+      "goal": "Our goal",
+      "goal-text": "To combine environmental protection with digital entertainment, leveraging real-time interaction (RTE), IoT, and computer vision (CV) to provide an efficient, automated, and low-cost solution for cleaning water bodies.",
+      "approach": "Our approach",
+      "approach-text": "We introduce \"gamification\" to engage the public, especially youth, in environmental action through challenges and leaderboards. By turning cleanup into an immersive game, we make environmental protection an interactive, educational, and fun experience for everyone.",
+      "video-caption": "Our first prototype in 2023"
+    },
+    "core-techs": {
+      "title": "Core Technologies",
+      "control-panel": "Multi-functional integrated control panel",
+      "control-panel-text": "This board integrates power management, low-latency communication, and an IMU. Through an optimized PWM control interface, it achieves precise control over the unmanned boat's power system.",
+      "control-system": "Intelligent control system",
+      "control-system-text": "By deeply integrating remote communication and an AI computing unit, the system enables high-precision remote control and video monitoring. It uses computer vision to support intelligent cruising, automated positioning, and garbage collection.",
+      "charging-station": "Automatic return and charging station",
+      "charging-station-text": "Paired with the intelligent control system, our base station enables the boat to automatically return and recharge, significantly reducing management and maintenance costs."
+    }
+  },
   "header": {
     "about": "About Us",
     "models": "Models",

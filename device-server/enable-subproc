@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+USAGE='Usage:
+  ./enable-subproc [subproc]'
+
+if [ $# -ne 1 ]; then
+  echo "Error: Invalid number of arguments."
+  echo "$USAGE"
+  exit 1
+fi
+
+if [ ! -d ./subproc ]; then
+  echo "Directory 'subproc' does not exist. Creating it now."
+  mkdir ./subproc
+fi
+
+ln -s ../$1 ./subproc

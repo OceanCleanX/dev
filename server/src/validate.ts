@@ -11,7 +11,7 @@ const JetsonData = z.object({
   type: z.literal("jetson"),
   data: z.object({
     // TODO: stricter check for data
-    target: z.string(),
+    type: z.string(),
     data: z.any(),
   }),
 });
