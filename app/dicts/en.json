@@ -29,6 +29,12 @@
         "gyro_y": "Gyro Y (m/s²)",
         "gyro_z": "Gyro Z (m/s²)"
       },
+      "station": {
+        "section-title": "Station",
+        "electromagnet": "Electromagnet",
+        "magnet-on": "ON",
+        "magnet-off": "OFF"
+      },
       "control": {
         "section-title": "Control",
         "mode": "Mode",

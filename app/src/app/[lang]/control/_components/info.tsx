@@ -1,10 +1,13 @@
+import { useCallback } from "react";
+import { useTranslations } from "next-intl";
+
 import { ControlModeSwitch } from "./controls";
 import useMotorWave from "./controls/useSpeed";
 import useSocketInfo from "./useSocketInfo";
+import useWs from "./useWs";
 
 import type { FC, PropsWithChildren } from "react";
 import type { SocketInfoType } from "./useSocketInfo";
-import { useTranslations } from "next-intl";
 
 const InfoItem: FC<PropsWithChildren<{ name: string }>> = ({
   name,
@@ -57,6 +60,37 @@ const SocketInfo = () => {
   );
 };
 
+const StationInfo = () => {
+  const t = useTranslations("control.info.station");
+
+  const { sendJsonMessage } = useWs();
+
+  const sendCmd = useCallback(
+    (cmd: "ON" | "OFF") =>
+      sendJsonMessage({ type: "electromagnet", data: cmd }),
+    [sendJsonMessage],
+  );
+
+  return (
+    <InfoItem name={t("electromagnet")}>
+      <div className="inline-block">
+        <button
+          className="px-1.5 bg-primary text-white rounded me-1"
+          onClick={() => sendCmd("ON")}
+        >
+          {t("magnet-on")}
+        </button>
+        <button
+          className="px-1 bg-primary text-white rounded"
+          onClick={() => sendCmd("OFF")}
+        >
+          {t("magnet-off")}
+        </button>
+      </div>
+    </InfoItem>
+  );
+};
+
 const Info = () => {
   const t = useTranslations("control.info");
   const motorWave = useMotorWave();
@@ -65,6 +99,9 @@ const Info = () => {
     <div className="w-fit space-y-3 pl-1.5">
       <InfoSection name={t("boat.section-title")}>
         <SocketInfo />
+      </InfoSection>
+      <InfoSection name={t("station.section-title")}>
+        <StationInfo />
       </InfoSection>
       <InfoSection name={t("control.section-title")}>
         <InfoItem name={t("control.mode")}>
