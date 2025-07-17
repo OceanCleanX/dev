@@ -8,10 +8,10 @@ const Header = () => {
   const t = useTranslations("header");
 
   return (
-    <NavigationMenu.Root className="w-screen bg-white px-8 py-2 shadow-sm">
+    <NavigationMenu.Root className="hidden sm:block w-screen bg-white px-8 py-2 shadow-sm">
       <NavigationMenu.List className="flex items-center space-x-4">
         <NavigationMenu.Item className={linkCls}>
-          Ocean CleanX
+          OceanCleanX
         </NavigationMenu.Item>
         <NavigationMenu.Item className={linkCls}>
           {t("about")}
