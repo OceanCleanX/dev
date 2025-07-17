@@ -1,29 +1,47 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 
-const Page = () => (
-  <>
-    <div className="w-screen relative">
-      <div className="absolute z-10 left-20 top-[13%]">
-        <div className="font-semibold text-[5rem] text-white tracking-[0.0375em]">
-          Ocean CleanX
+import WhatIs from "./_components/whatis";
+
+import type { FC, PropsWithChildren } from "react";
+
+const OneScreen: FC<PropsWithChildren> = ({ children }) => (
+  <div className="w-screen min-h-[75vh] lg:h-screen py-10">{children}</div>
+);
+
+const Page = () => {
+  const t = useTranslations("home");
+
+  return (
+    <>
+      <div className="w-screen relative">
+        <div className="absolute z-10 left-1/2 -translate-x-1/2 sm:translate-x-0 mt-10 sm:mt-0 sm:left-20 sm:top-[13%]">
+          <h1 className="font-semibold text-4xl sm:text-6xl lg:text-[5rem] text-white tracking-[0.0375em]">
+            OceanCleanX
+          </h1>
+          <div className="text-sm sm:text-2xl lg:text-[1.7rem] text-[#9FD3E3] pt-2 sm:pt-5 font-light sm:mt-0">
+            {t("subtitle")}
+          </div>
         </div>
-        <div className="text-[1.7rem] text-[#9FD3E3] pl-3 pt-5 font-light">
-          Affordable Water Cleaning, One Step at a Time.
+        <Image
+          className="-z-10 mask-b-from-20% md:mask-b-to-70% brightness-110 contrast-[110%] sepia-[0.1]"
+          src="/bg.jpg"
+          alt="OceanCleanX background"
+          width={3992}
+          height={2992}
+          priority
+        />
+        <div className="hidden absolute bottom-[calc(100%-100vh+4rem+32px)] left-1/2 -translate-x-1/2 md:flex flex-col items-center space-y-3.5">
+          <span className="text-sm text-neutral">Scroll to continue...</span>
+          <ChevronDownIcon className="i-ph-caret-down size-[18px] motion-safe:animate-bounce" />
         </div>
       </div>
-      <Image
-        className="-z-10 mask-b-from-20% mask-b-to-70% brightness-110 contrast-[110%] sepia-[0.1]"
-        src="/bg.jpg"
-        alt="OceanCleanX background"
-        width={3992}
-        height={2992}
-        priority
-      />
-    </div>
-    <div className="w-screen px-16 pt-10 pb-20">
-      <div className="font-semibold text-[1.7rem]">Our Models</div>
-    </div>
-  </>
-);
+      <OneScreen>
+        <WhatIs />
+      </OneScreen>
+    </>
+  );
+};
 
 export default Page;
