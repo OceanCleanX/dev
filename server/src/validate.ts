@@ -9,7 +9,7 @@ const SpeedData = z.object({
 });
 const ElectromagetData = z.object({
   type: z.literal("electromagnet"),
-  data: z.union([z.literal("ON"), z.literal("OFF")]),
+  data: z.literal(["ON", "OFF"]),
 });
 const Data = z.discriminatedUnion("type", [SpeedData, ElectromagetData]);
 type DataType = z.infer<typeof Data>;
