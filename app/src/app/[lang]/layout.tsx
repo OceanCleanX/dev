@@ -2,6 +2,7 @@ import QueryProvider from "@/components/providers/tanstack-query";
 import { Provider as JotaiProvider } from "jotai";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
 import "./globals.css";
@@ -13,15 +14,17 @@ const metadata: Metadata = {
   title: "ControlPanel - OceanCleanX",
 };
 
+const generateStaticParams = () => routing.locales.map((lang) => ({ lang }));
+
 const Layout: FC<
   PropsWithChildren<{
     params: Promise<{ lang: string }>;
   }>
 > = async ({ children, params }) => {
   const { lang } = await params;
-  if (!hasLocale(routing.locales, lang)) {
-    notFound();
-  }
+  if (!hasLocale(routing.locales, lang)) notFound();
+  setRequestLocale(lang);
+
   return (
     <html lang="en">
       <head>
@@ -41,4 +44,4 @@ const Layout: FC<
 };
 
 export default Layout;
-export { metadata };
+export { generateStaticParams, metadata };
