@@ -7,15 +7,11 @@ const SpeedData = z.object({
   left: Speed,
   right: Speed,
 });
-const JetsonData = z.object({
-  type: z.literal("jetson"),
-  data: z.object({
-    // TODO: stricter check for data
-    type: z.string(),
-    data: z.any(),
-  }),
+const ElectromagetData = z.object({
+  type: z.literal("electromagnet"),
+  data: z.union([z.literal("ON"), z.literal("OFF")]),
 });
-const Data = z.discriminatedUnion("type", [SpeedData, JetsonData]);
+const Data = z.discriminatedUnion("type", [SpeedData, ElectromagetData]);
 type DataType = z.infer<typeof Data>;
 
 const validateData = (data: unknown) => {

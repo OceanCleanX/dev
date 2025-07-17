@@ -64,7 +64,8 @@ app.on("upgrade", (request, socket, head) => {
 
 let occupied = false;
 let tcpSocket: net.Socket | null = null;
-let remoteWs: WebSocket | null = null;
+// let jetsonWs: WebSocket | null = null;
+let stationWs: WebSocket | null = null;
 
 const sendResponse = (ws: WebSocket, res: any) => ws.send(JSON.stringify(res));
 const sendSuccess = (ws: WebSocket, response: any) =>
@@ -108,20 +109,28 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     logger.debug(`Received data: ${message}`);
-    const result = validateData(message.toString());
-
-    if (!result.success) {
-      sendError(ws, "Invalid data format");
-      return;
-    }
 
     if (!tcpSocket || tcpSocket.destroyed) {
-      sendError(ws, "Server is not connected to TCP");
+      sendError(ws, "Server is not connected to control server");
+      ws.close();
       return;
     }
 
-    if (!remoteWs || remoteWs.readyState !== WebSocket.OPEN) {
-      sendError(ws, "Remote WebSocket is not connected");
+    // if (!jetsonWs || jetsonWs.readyState !== WebSocket.OPEN) {
+    //   sendError(ws, "Server is not connected to Jetson Nano");
+    //   ws.close();
+    //   return;
+    // }
+
+    if (!stationWs || stationWs.readyState !== WebSocket.OPEN) {
+      sendError(ws, "Server is not connected to station");
+      ws.close();
+      return;
+    }
+
+    const result = validateData(message.toString());
+    if (!result.success) {
+      sendError(ws, "Invalid data format");
       return;
     }
 
@@ -131,8 +140,8 @@ wss.on("connection", (ws) => {
         const { left, right } = data;
         tcpSocket.write(createPayload(left, right));
         break;
-      case "jetson":
-        remoteWs.send(JSON.stringify(data.data));
+      case "electromagnet":
+        stationWs.send(JSON.stringify(data.data));
         break;
     }
   });
@@ -142,8 +151,10 @@ wss.on("connection", (ws) => {
     occupied = false;
     tcpSocket?.destroy();
     tcpSocket = null;
-    remoteWs?.close();
-    remoteWs = null;
+    // jetsonWs?.close();
+    // jetsonWs = null;
+    stationWs?.close();
+    stationWs = null;
   });
 });
 
