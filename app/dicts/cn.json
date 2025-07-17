@@ -29,6 +29,12 @@
         "gyro_y": "陀螺仪 Y (m/s²)",
         "gyro_z": "陀螺仪 Z (m/s²)"
       },
+      "station": {
+        "section-title": "基站信息",
+        "electromagnet": "电磁铁（固定用）",
+        "magnet-on": "打开",
+        "magnet-off": "关闭"
+      },
       "control": {
         "section-title": "控制",
         "mode": "操控模式",

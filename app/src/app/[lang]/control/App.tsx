@@ -12,7 +12,7 @@ const App = () => {
   return (
     <AgoraProvider>
       <div className="h-screen w-screen relative">
-        <div className="absolute top-4 right-3 w-60 h-80 overflow-y-auto p-4 backdrop-blur-md backdrop-saturate-[180%] [backface-visibility:hidden]">
+        <div className="absolute top-4 right-3 w-60 h-80 md:h-96 overflow-y-auto p-4 backdrop-blur-md backdrop-saturate-[180%] [backface-visibility:hidden]">
           <Info />
         </div>
         <Control className="absolute bottom-64 left-40" />
