@@ -33,7 +33,7 @@
       "agora-join": "尝试加入 Agora 频道...",
       "agora-fetched": "成功获取 Agora 信息",
       "agora-error": "获取 Agora 信息失败",
-      "ws-server-error": "WebSocket 错误: ${}",
+      "ws-server-error": "WebSocket 错误: {error}",
       "ws-error": "无法连接到 WebSocket 服务器"
     },
     "modes": {

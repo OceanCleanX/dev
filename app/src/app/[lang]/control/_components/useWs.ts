@@ -26,7 +26,7 @@ const useWs = () => {
       const data = JSON.parse(ev.data) as ServerResponse;
 
       if (!data.success) {
-        addLog(t("ws-server-error"), data.msg);
+        addLog(t("ws-server-error", { error: data.msg }));
         return;
       }
 
