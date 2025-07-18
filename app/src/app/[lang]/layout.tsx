@@ -1,9 +1,11 @@
-import QueryProvider from "@/components/providers/tanstack-query";
 import { Provider as JotaiProvider } from "jotai";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+
 import { routing } from "@/i18n/routing";
+import QueryProvider from "@/components/providers/tanstack-query";
+import MotionProvider from "@/components/providers/motion";
 
 import "./globals.css";
 
@@ -34,7 +36,9 @@ const Layout: FC<
         <div id="root">
           <NextIntlClientProvider>
             <QueryProvider>
-              <JotaiProvider>{children}</JotaiProvider>
+              <JotaiProvider>
+                <MotionProvider>{children}</MotionProvider>
+              </JotaiProvider>
             </QueryProvider>
           </NextIntlClientProvider>
         </div>

@@ -1,6 +1,5 @@
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useCallback } from "react";
 
 import type { FC } from "react";
 
@@ -20,15 +19,7 @@ const addLogAtom = atom(null, (get, set, update: string) => {
     },
   ]);
 });
-const useAddLog = () => {
-  const _addLog = useSetAtom(addLogAtom);
-
-  return useCallback(
-    (msg: string, ...args: string[]) =>
-      _addLog(args.reduce((prev, curr) => prev.replace("${}", curr), msg)),
-    [_addLog],
-  );
-};
+const useAddLog = () => useSetAtom(addLogAtom);
 
 const LogEntryItem: FC<{ entry: LogEntry }> = ({
   entry: { timestamp, msg },
