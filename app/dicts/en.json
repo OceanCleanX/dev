@@ -13,11 +13,11 @@
     },
     "core-techs": {
       "title": "Core Technologies",
-      "control-panel": "Multi-functional integrated control panel",
+      "control-panel": "Multi-functional control panel",
       "control-panel-text": "This board integrates power management, low-latency communication, and an IMU. Through an optimized PWM control interface, it achieves precise control over the unmanned boat's power system.",
       "control-system": "Intelligent control system",
       "control-system-text": "By deeply integrating remote communication and an AI computing unit, the system enables high-precision remote control and video monitoring. It uses computer vision to support intelligent cruising, automated positioning, and garbage collection.",
-      "charging-station": "Automatic return and charging station",
+      "charging-station": "Automated charging station",
       "charging-station-text": "Paired with the intelligent control system, our base station enables the boat to automatically return and recharge, significantly reducing management and maintenance costs."
     }
   },
