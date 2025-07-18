@@ -1,8 +1,9 @@
+import dynamic from "next/dynamic";
+
 import Header from "./_components/header";
+import Footer from "./_components/footer";
 
 import type { FC, PropsWithChildren } from "react";
-import Footer from "./_components/footer";
-import dynamic from "next/dynamic";
 
 const Bg = dynamic(() => import("./_components/bg"));
 
