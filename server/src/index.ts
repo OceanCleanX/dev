@@ -2,6 +2,7 @@ import { RtcRole, RtcTokenBuilder } from "agora-token";
 import http from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import net from "net";
+import crypto from "crypto";
 
 import { createPayload, parseResponse } from "./protocol";
 import logger from "./logger";
@@ -17,7 +18,7 @@ import {
 
 const app = http.createServer((req, res) => {
   if (req.url === "/api/agora" && req.method === "GET") {
-    const uid = Math.floor(Math.random() * 1000000000);
+    const uid = parseInt(crypto.randomBytes(4).toString('hex'), 16) % 1000000000;
     const token = RtcTokenBuilder.buildTokenWithUid(
       AGORA_APP_ID,
       AGORA_APP_CERT,
