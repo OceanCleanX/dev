@@ -13,7 +13,7 @@ import type { Metadata } from "next";
 import type { FC, PropsWithChildren } from "react";
 
 const metadata: Metadata = {
-  title: "ControlPanel - OceanCleanX",
+  title: "OceanCleanX",
 };
 
 const generateStaticParams = () => routing.locales.map((lang) => ({ lang }));
@@ -29,9 +29,6 @@ const Layout: FC<
 
   return (
     <html lang="en">
-      <head>
-        <title>ControlPanel - OceanCleanX</title>
-      </head>
       <body>
         <div id="root">
           <NextIntlClientProvider>
