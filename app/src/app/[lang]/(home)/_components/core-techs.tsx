@@ -16,7 +16,7 @@ const CoreTechs = () => {
       <h2 className="font-semibold text-3xl mb-10">{t("title")}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10 -mx-7">
         <AnimatedBackground
-          className="rounded-lg bg-zinc-100 dark:bg-zinc-800"
+          className="rounded-lg bg-zinc-100"
           transition={{
             type: "spring",
             bounce: 0.2,
