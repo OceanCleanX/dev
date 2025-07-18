@@ -17,7 +17,7 @@
       "control-panel-text": "该控制板集成了电源管理、低延迟通信和惯性测量单元（IMU）功能。通过优化的PWM控制接口，它能实现对无人船动力系统的精确控制。",
       "control-system": "智能控制系统",
       "control-system-text": "通过深度集成远程通信与AI计算单元，该系统可实现高精度的远程控制与视频监控。它利用计算机视觉技术支持智能巡航、自动化定位及垃圾收集。",
-      "charging-station": "自动返航充电站",
+      "charging-station": "自动化充电站",
       "charging-station-text": "与智能控制系统配合，我们的基站能让无人船实现自动返航与充电，显著降低了管理与维护成本。"
     }
   },
@@ -33,7 +33,7 @@
       "agora-join": "尝试加入 Agora 频道...",
       "agora-fetched": "成功获取 Agora 信息",
       "agora-error": "获取 Agora 信息失败",
-      "ws-server-error": "WebSocket 错误: ${}",
+      "ws-server-error": "WebSocket 错误: {error}",
       "ws-error": "无法连接到 WebSocket 服务器"
     },
     "modes": {
