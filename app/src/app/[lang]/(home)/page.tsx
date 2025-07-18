@@ -2,12 +2,17 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
+import InView from "@/components/motion-primitives/in-view";
+
 import WhatIs from "./_components/whatis";
+import CoreTechs from "./_components/core-techs";
 
 import type { FC, PropsWithChildren } from "react";
 
-const OneScreen: FC<PropsWithChildren> = ({ children }) => (
-  <div className="w-screen min-h-[75vh] lg:h-screen py-10">{children}</div>
+const OnePage: FC<PropsWithChildren> = ({ children }) => (
+  <div className="w-screen min-h-[75vh] lg:min-h-screen h-fit py-10">
+    {children}
+  </div>
 );
 
 const Page = () => {
@@ -37,9 +42,40 @@ const Page = () => {
           <ChevronDownIcon className="i-ph-caret-down size-[18px] motion-safe:animate-bounce" />
         </div>
       </div>
-      <OneScreen>
-        <WhatIs />
-      </OneScreen>
+      <InView
+        variants={{
+          hidden: { opacity: 0, y: 100, filter: "blur(4px)" },
+          visible: {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: { staggerChildren: 0.09 },
+          },
+        }}
+        viewOptions={{ margin: "0px 0px -200px 0px" }}
+        transition={{ duration: 0.3 }}
+      >
+        <OnePage>
+          <WhatIs />
+        </OnePage>
+      </InView>
+      <InView
+        variants={{
+          hidden: { opacity: 0, y: 100, filter: "blur(4px)" },
+          visible: {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: { staggerChildren: 0.09 },
+          },
+        }}
+        viewOptions={{ margin: "0px 0px -200px 0px" }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="w-screen min-h-fit h-[75vh] py-10">
+          <CoreTechs />
+        </div>
+      </InView>
     </>
   );
 };
