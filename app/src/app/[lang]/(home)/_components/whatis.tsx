@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+
 import type { FC } from "react";
 
 const Subtitle: FC<{ name: string }> = ({ name }) => (
@@ -13,9 +14,9 @@ const WhatIs = () => {
   const t = useTranslations("home.whatis");
 
   return (
-    <div className="container px-4 sm:px-0 mx-auto space-y-10">
+    <div className="container px-4 mx-auto space-y-10">
       <h2 className="font-semibold text-3xl">{t("title")}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
         <div>
           <Subtitle name={t("start")} />
           <Text text={t("start-text")} />
