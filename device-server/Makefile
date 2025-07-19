@@ -23,7 +23,12 @@ CFLAGS += -I$(INCLUDE_DIR) -I$(EXTERNAL_INCLUDE)
 
 LDLIBS := $(patsubst %, -l%, $(LIBS))
 
-.PHONY: all clean $(LIBS)
+ROOT_DIR := $(shell pwd)
+ABS_EXE_PATH := $(abspath $(BUILD_DIR)/$(EXECUTABLE))
+SERVICE_FILE := data/device-server.service.in
+TARGET_SERVICE_FILE ?= /etc/systemd/system/device-server.service
+
+.PHONY: all clean install $(LIBS)
 
 $(shell mkdir -p $(BUILD_DIR))
 
@@ -51,6 +56,12 @@ logc:
 	@echo "Compiling log.c..."
 	$(CC) $(CFLAGS) -c ./external/log.c/src/log.c -o $(BUILD_DIR)/log.o
 	ar rcs $(BUILD_DIR)/liblogc.a $(BUILD_DIR)/log.o
+
+install-service: all
+	@echo "Installing service..."
+	sed -e "s|@EXECUTABLE@|$(ABS_EXE_PATH)|g" $(SERVICE_FILE) \
+		| sed -e "s|@ROOT_DIR@|$(ROOT_DIR)|g" \
+		> $(TARGET_SERVICE_FILE)
 
 clean:
 	rm -rf $(BUILD_DIR)
