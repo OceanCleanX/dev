@@ -6,7 +6,12 @@ import { useState } from "react";
 import type { FC, PropsWithChildren } from "react";
 
 const QueryProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [client] = useState(() => new QueryClient());
+  const [client] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { staleTime: 60 * 1000 } },
+      }),
+  );
 
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 };
