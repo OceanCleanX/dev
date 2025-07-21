@@ -27,22 +27,17 @@ const createPayload = (left: number, right: number): Uint8Array => {
   return payload;
 };
 
+type ValidSocketInfo = {
+  readonly delay: number;
+  readonly voltage: number;
+  readonly wifi_strength: number;
+  readonly gyro_x: number;
+  readonly gyro_y: number;
+  readonly gyro_z: number;
+};
 type SocketInfo = {
   raw: Uint8Array;
-} & (
-  | {
-      valid: false;
-    }
-  | {
-      valid: true;
-      readonly delay: number;
-      readonly voltage: number;
-      readonly wifi_strength: number;
-      readonly gyro_x: number;
-      readonly gyro_y: number;
-      readonly gyro_z: number;
-    }
-);
+} & ({ valid: false } | ({ valid: true } & ValidSocketInfo));
 
 const bytesToFloat = (first: number, second: number) =>
   parseFloat(`${first}.${second}`);
@@ -76,4 +71,4 @@ const parseResponse = (data: Uint8Array): SocketInfo => ({
 });
 
 export { createPayload, parseResponse };
-export type { SocketInfo };
+export type { ValidSocketInfo, SocketInfo };
