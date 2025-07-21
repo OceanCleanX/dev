@@ -21,7 +21,10 @@ import type {
 const server = fastify({ loggerInstance: logger, maxParamLength: 5000 });
 
 // CORS setup
-await server.register(fastifyCors, { origin: "*" });
+await server.register(fastifyCors, {
+  origin: "*",
+  methods: "GET,POST,PUT,PATCH,DELETE",
+});
 
 // TRPC setup
 await server.register(fastifyTRPCPlugin, {
@@ -43,6 +46,7 @@ declare module "fastify" {
 await server.register(fastifySocketIO, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   },
 });
 server.ready().then(() => server.io.on("connection", handler));
