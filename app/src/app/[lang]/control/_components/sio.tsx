@@ -75,7 +75,9 @@ const useSIO = (): SIOWrapper => {
   return sio;
 };
 
-const useSIOEvData = <T extends keyof S2CEv>(key: keyof S2CEv) => {
+const useSIOEvData = <T extends keyof Omit<S2CEv, "error">>(
+  key: keyof S2CEv,
+) => {
   const registerSIOCb = useContext(RegSIOCbCtx);
   if (!registerSIOCb)
     throw new Error("useSIOData must be used within SIOProvider");
