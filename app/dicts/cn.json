@@ -33,8 +33,10 @@
       "agora-join": "尝试加入 Agora 频道...",
       "agora-fetched": "成功获取 Agora 信息",
       "agora-error": "获取 Agora 信息失败",
-      "ws-server-error": "WebSocket 错误: {error}",
-      "ws-error": "无法连接到 WebSocket 服务器"
+      "sio-connected": "已连接到 Socket.IO 服务器",
+      "sio-disconnected": "Socket.IO 已断开连接",
+      "sio-connect-error": "Socket.IO 连接错误",
+      "sio-error": "Socket.IO 错误: {error}"
     },
     "modes": {
       "Manual": "手动",

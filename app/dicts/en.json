@@ -33,8 +33,10 @@
       "agora-join": "Attempting to join Agora channel...",
       "agora-fetched": "Successfully fetched Agora info",
       "agora-error": "Failed to fetch Agora info",
-      "ws-server-error": "WebSocket error: {error}",
-      "ws-error": "Unable to connect to WebSocket server"
+      "sio-connected": "Connected to Socket.IO server",
+      "sio-disconnected": "Socket.IO disconnected",
+      "sio-connect-error": "Socket.IO connection error",
+      "sio-error": "Socket.IO error: {error}"
     },
     "modes": {
       "Manual": "Manual",

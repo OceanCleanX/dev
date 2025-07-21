@@ -1,28 +1,27 @@
 import fastify from "fastify";
 import fastifySocketIO from "fastify-socket.io";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
+import fastifyCors from "@fastify/cors";
 
 import { appRouter } from "@/routers";
 import { createContext } from "@/trpc/context";
 import logger from "@/logger";
+import handler from "@/sio-handler";
 
 import type { FastifyTRPCPluginOptions } from "@trpc/server/adapters/fastify";
 import type { Server } from "socket.io";
+import type { AppRouter } from "@/routers";
 import type {
-  ListenEvents,
-  EmitEvents,
+  S2CEv,
+  C2SEv,
   ServerSideEvents,
   SocketData,
-} from "@/types/socket-io";
-import type { AppRouter } from "@/routers";
-import fastifyCors from "@fastify/cors";
+} from "@/exports/socket-io";
 
 const server = fastify({ loggerInstance: logger, maxParamLength: 5000 });
 
 // CORS setup
-await server.register(fastifyCors, {
-  origin: "*",
-});
+await server.register(fastifyCors, { origin: "*" });
 
 // TRPC setup
 await server.register(fastifyTRPCPlugin, {
@@ -38,10 +37,14 @@ await server.register(fastifyTRPCPlugin, {
 // socket.io setup
 declare module "fastify" {
   interface FastifyInstance {
-    io: Server<ListenEvents, EmitEvents, ServerSideEvents, SocketData>;
+    io: Server<C2SEv, S2CEv, ServerSideEvents, SocketData>;
   }
 }
-await server.register(fastifySocketIO);
-server.ready().then(() => server.io.on("connection", (socket) => {}));
+await server.register(fastifySocketIO, {
+  cors: {
+    origin: "*",
+  },
+});
+server.ready().then(() => server.io.on("connection", handler));
 
 server.listen({ port: 3000 });

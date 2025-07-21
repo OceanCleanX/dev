@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
+import { useTranslations } from "next-intl";
 
 import { speedAtom } from "./shared";
 import ConstantControl from "./constant";
 import ManualControl from "./manual";
-import useWs from "../useWs";
+import { useSIO } from "../sio";
 
 import type { ComponentPropsWithRef, FC } from "react";
 import type { ControlComponent } from "./shared";
-import { useTranslations } from "next-intl";
 
 enum ControlMode {
   Manual,
@@ -44,24 +44,16 @@ const AutoControl: ControlComponent = () => <>Not yet implemented</>;
 
 const controlComponents = [ManualControl, ConstantControl, AutoControl];
 const Control: FC<ComponentPropsWithRef<"div">> = (props) => {
-  const { sendJsonMessage } = useWs();
+  const sio = useSIO();
 
   const controlMode = useAtomValue(controlModeAtom);
   const [speed, setSpeed] = useAtom(speedAtom);
 
   useEffect(() => {
-    const id = setInterval(
-      () =>
-        sendJsonMessage({
-          type: "speed",
-          left: speed[0],
-          right: speed[1],
-        }),
-      20,
-    );
+    const id = setInterval(() => sio.emit("speed", speed[0], speed[1]), 20);
 
     return () => clearInterval(id);
-  }, [speed, sendJsonMessage]);
+  }, [speed, sio]);
 
   const SelectedControl = controlComponents[controlMode];
 
