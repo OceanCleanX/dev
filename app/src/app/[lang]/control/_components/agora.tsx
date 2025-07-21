@@ -1,36 +1,34 @@
 import AgoraRTC, { AgoraRTCProvider, useJoin } from "agora-rtc-react";
-import { useAddLog } from "./log";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+
+import { useTRPC } from "@/lib/trpc";
+
+import { useAddLog } from "./log";
 
 import type { FC, PropsWithChildren } from "react";
-
-type AgoraInfo = {
-  appid: string;
-  token: string;
-  channel: string;
-  uid: number | string;
-};
-
-const apiUrl =
-  process.env.NODE_ENV === "production"
-    ? `https://${process.env.NEXT_PUBLIC_SERVER_URL}/api/agora`
-    : `http://${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/agora`;
 
 const AutoJoin = () => {
   const t = useTranslations("control.log");
   const addLog = useAddLog();
 
-  useJoin(async () => {
+  const trpc = useTRPC();
+  const { data, isFetched, isError } = useQuery(trpc.agora.auth.queryOptions());
+
+  useEffect(() => {
     addLog(t("agora-join"));
-    try {
-      const res = await fetch(apiUrl);
-      addLog(t("agora-fetched"));
-      return (await res.json()) as AgoraInfo;
-    } catch {
-      addLog(t("agora-error"));
-      return {} as AgoraInfo;
-    }
-  });
+  }, [addLog, t]);
+
+  useEffect(() => {
+    if (isFetched) addLog(t("agora-fetched"));
+  }, [addLog, isFetched, t]);
+
+  useEffect(() => {
+    if (isError) addLog(t("agora-error"));
+  }, [addLog, isError, t]);
+
+  useJoin(data!, isFetched);
 
   return null;
 };

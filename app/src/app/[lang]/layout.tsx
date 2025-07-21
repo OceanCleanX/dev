@@ -6,6 +6,7 @@ import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import QueryProvider from "@/components/providers/tanstack-query";
 import MotionProvider from "@/components/providers/motion";
+import TRPCProvider from "@/components/providers/trpc";
 
 import "./globals.css";
 
@@ -30,15 +31,15 @@ const Layout: FC<
   return (
     <html lang="en">
       <body>
-        <div id="root">
-          <NextIntlClientProvider>
-            <QueryProvider>
+        <NextIntlClientProvider>
+          <QueryProvider>
+            <TRPCProvider>
               <JotaiProvider>
                 <MotionProvider>{children}</MotionProvider>
               </JotaiProvider>
-            </QueryProvider>
-          </NextIntlClientProvider>
-        </div>
+            </TRPCProvider>
+          </QueryProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

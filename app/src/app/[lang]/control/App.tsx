@@ -1,15 +1,13 @@
-import useWs from "./_components/useWs";
 import { Control } from "./_components/controls";
 import Camera from "./_components/camera";
 import AgoraProvider from "./_components/agora";
 import Info from "./_components/info";
 import Map from "./_components/map";
 import Log from "./_components/log";
+import { SIOProvider } from "./_components/sio";
 
-const App = () => {
-  useWs();
-
-  return (
+const App = () => (
+  <SIOProvider>
     <AgoraProvider>
       <div className="h-screen w-screen relative">
         <div className="absolute top-4 right-3 w-60 h-80 overflow-y-auto p-4 backdrop-blur-md backdrop-saturate-[180%] [backface-visibility:hidden]">
@@ -27,7 +25,7 @@ const App = () => {
         </div>
       </div>
     </AgoraProvider>
-  );
-};
+  </SIOProvider>
+);
 
 export default App;
