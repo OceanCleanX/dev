@@ -1,10 +1,10 @@
+import { useTranslations } from "next-intl";
+
+import { useSIOEvData } from "./sio";
 import { ControlModeSwitch } from "./controls";
 import useMotorWave from "./controls/useSpeed";
-import useSocketInfo from "./useSocketInfo";
 
 import type { FC, PropsWithChildren } from "react";
-import type { SocketInfoType } from "./useSocketInfo";
-import { useTranslations } from "next-intl";
 
 const InfoItem: FC<PropsWithChildren<{ name: string }>> = ({
   name,
@@ -28,29 +28,27 @@ const InfoSection: FC<PropsWithChildren<{ name: string }>> = ({
   </div>
 );
 
-const socketInfoKeys: (keyof Omit<SocketInfoType, "type">)[] = [
+const socketInfoKeys = [
   "delay",
   "voltage",
   "wifi_strength",
   "gyro_x",
   "gyro_y",
   "gyro_z",
-];
+] as const;
 
 const displayValue = (value: number | undefined): string =>
   value?.toFixed(2) ?? "N/A";
 
 const SocketInfo = () => {
-  const { data: socketData } = useSocketInfo();
+  const { data: socketData } = useSIOEvData("control-info");
   const t = useTranslations("control.info.boat");
 
   return (
     <>
       {socketInfoKeys.map((k) => (
         <InfoItem key={k} name={t(k)}>
-          {displayValue(
-            socketData?.[k as keyof SocketInfoType] as number | undefined,
-          )}
+          {displayValue(socketData?.[0][k])}
         </InfoItem>
       ))}
     </>
