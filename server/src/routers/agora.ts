@@ -2,12 +2,7 @@ import { randomBytes } from "crypto";
 import { RtcRole, RtcTokenBuilder } from "agora-token";
 
 import { publicProcedure, router } from "@/trpc";
-import {
-  AGORA_APP_CERT,
-  AGORA_APP_ID,
-  AGORA_CHANNEL_NAME,
-  AGORA_TOKEN_EXPIRE,
-} from "@/env";
+import env from "@/env";
 
 type AgoraAuth = {
   appid: string;
@@ -16,22 +11,24 @@ type AgoraAuth = {
   uid: number | string;
 };
 
+const { agora: agoraEnv } = env;
+
 const agora = router({
   auth: publicProcedure.query(() => {
     const uid = parseInt(randomBytes(4).toString("hex"), 16) % 1000000000;
     const token = RtcTokenBuilder.buildTokenWithUid(
-      AGORA_APP_ID,
-      AGORA_APP_CERT,
-      AGORA_CHANNEL_NAME,
+      agoraEnv.APP_ID,
+      agoraEnv.APP_CERT,
+      agoraEnv.CHANNEL_NAME,
       uid,
       RtcRole.PUBLISHER,
-      AGORA_TOKEN_EXPIRE,
-      AGORA_TOKEN_EXPIRE,
+      agoraEnv.TOKEN_EXPIRE,
+      agoraEnv.TOKEN_EXPIRE,
     );
 
     return {
-      appid: AGORA_APP_ID,
-      channel: AGORA_CHANNEL_NAME,
+      appid: agoraEnv.APP_ID,
+      channel: agoraEnv.CHANNEL_NAME,
       token,
       uid,
     } satisfies AgoraAuth;
