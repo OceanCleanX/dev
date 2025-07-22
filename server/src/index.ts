@@ -7,6 +7,7 @@ import { appRouter } from "@/routers";
 import { createContext } from "@/trpc/context";
 import logger from "@/logger";
 import handler from "@/sio-handler";
+import fastifyPrisma from "@/fastify-plugins/prisma";
 
 import type { FastifyTRPCPluginOptions } from "@trpc/server/adapters/fastify";
 import type { Server } from "socket.io";
@@ -50,5 +51,8 @@ await server.register(fastifySocketIO, {
   },
 });
 server.ready().then(() => server.io.on("connection", handler));
+
+// prisma setup
+await server.register(fastifyPrisma);
 
 server.listen({ port: 3000 });

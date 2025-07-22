@@ -6,16 +6,21 @@
   "scripts": {
     "dev": "bun run src/index.ts"
   },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^24.0.13",
-    "@types/ws": "^8.18.1"
+    "@types/ws": "^8.18.1",
+    "prisma": "^6.12.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",
+    "@prisma/client": "^6.12.0",
     "@trpc/server": "^11.4.3",
     "agora-token": "^2.0.5",
     "fastify": "^5.4.0",
