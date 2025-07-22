@@ -1,8 +1,7 @@
-import net from "net";
-
 import logger from "@/logger";
 import boats from "@/config/boats";
-import { createPayload, parseResponse } from "@/utils/control-protocol";
+
+import registerControlHandler from "./control-server";
 
 import type {
   S2CEv,
@@ -13,9 +12,13 @@ import type {
 import type { Socket } from "socket.io";
 import type { Boat } from "@/config/boats";
 
-const boatsRegistry: [Boat, available: boolean][] = boats.map((b) => [b, true]);
+const boatsRegistry: Map<Boat, string | null> = new Map(
+  boats.map((b) => [b, null]),
+);
 
-const getAvailableBoat = () => boatsRegistry.find((b) => b[1])?.[0];
+const getAvailableBoat = () => boatsRegistry.entries().find((b) => !b[1])?.[0];
+const setBoat = (boat: Boat, socketId: string | null) =>
+  boatsRegistry.set(boat, socketId);
 
 // handle each socket.io connection
 const handler = (
@@ -29,44 +32,19 @@ const handler = (
   }
 
   logger.info(`Client ${socket.id} connected`);
+  setBoat(boat, socket.id);
 
-  // initialize resources
-
-  // control TCP socket server
-  const controlSocket = new net.Socket();
-  controlSocket.connect(
-    boat["control-server-port"],
-    boat["control-server-addr"],
-    () =>
-      logger.info(
-        `Connected client ${socket.id} to control server at ${boat["control-server-addr"]}:${boat["control-server-port"]}`,
-      ),
-  );
-  controlSocket.on("data", (data) => {
-    const { raw: __, ...res } = parseResponse(data);
-    if (!res.valid) return;
-    socket.emit("control-info", res);
-  });
-  controlSocket.on("close", () => logger.info("Control connection closed"));
-  controlSocket.on("error", (err) =>
-    logger.error(`Control TCP connection error: ${err.message}`),
-  );
+  // register handlers
+  registerControlHandler(socket, boat);
 
   // TODO: station WebSocket server
 
   // handlers
   socket.on("disconnect", () => {
     logger.info(`Client ${socket.id} disconnected`);
-    controlSocket.destroy();
+    setBoat(boat, null);
   });
   socket.on("error", (err) => logger.error(`Socket error: ${err.message}`));
-  socket.on("speed", (left, right) => {
-    if (controlSocket.destroyed) {
-      socket.emit("error", "Control socket is not connected");
-      return;
-    }
-    controlSocket.write(createPayload(left, right));
-  });
 };
 
 export default handler;
