@@ -7,9 +7,9 @@ import type {
 import type { Socket } from "socket.io";
 import type { Boat } from "@/config/boats";
 
-type registerHandler = (
+type RegisterHandler = (
   socket: Socket<C2SEv, S2CEv, ServerSideEvents, SocketData>,
   boat: Boat,
 ) => void;
 
-export type { registerHandler };
+export type { RegisterHandler };

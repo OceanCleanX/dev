@@ -11,6 +11,7 @@ import type {
 } from "@/exports/socket-io";
 import type { Socket } from "socket.io";
 import type { Boat } from "@/config/boats";
+import registerAgoraHandler from "./agora";
 
 const boatsRegistry: Map<Boat, string | null> = new Map(
   boats.map((b) => [b, null]),
@@ -36,6 +37,7 @@ const handler = (
 
   // register handlers
   registerControlHandler(socket, boat);
+  registerAgoraHandler(socket, boat);
 
   // TODO: station WebSocket server
 

@@ -3,9 +3,9 @@ import net from "net";
 import logger from "@/logger";
 import { createPayload, parseResponse } from "@/utils/control-protocol";
 
-import type { registerHandler } from "./types";
+import type { RegisterHandler } from "./types";
 
-const registerControlHandler: registerHandler = (socket, boat) => {
+const registerControlHandler: RegisterHandler = (socket, boat) => {
   // Initialize TCP socket to control server
   const controlSocket = new net.Socket();
   controlSocket.connect(
@@ -28,10 +28,11 @@ const registerControlHandler: registerHandler = (socket, boat) => {
 
   // register handlers
   socket.on("speed", (left, right) => {
-    if (controlSocket.destroyed) {
-      socket.emit("error", "Control socket is not connected");
+    if (controlSocket.destroyed)
+      // TODO: more proper error handling, perhaps close the socket
+      // socket.emit("error", "Control socket is not connected");
       return;
-    }
+
     controlSocket.write(createPayload(left, right));
   });
   socket.on("disconnect", () => controlSocket.destroy());
