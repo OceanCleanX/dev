@@ -1,4 +1,4 @@
-import type { ValidSocketInfo as ControlInfo } from "@/utils/control-protocol";
+import type { ValidSocketInfo as ControlInfo } from "@/lib/control-protocol";
 
 type AgoraAuth = {
   appid: string;

@@ -1,7 +1,7 @@
 import net from "net";
 
-import logger from "@/logger";
-import { createPayload, parseResponse } from "@/utils/control-protocol";
+import logger from "@/lib/logger";
+import { createPayload, parseResponse } from "@/lib/control-protocol";
 
 import type { RegisterHandler } from "./types";
 

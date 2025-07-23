@@ -1,6 +1,6 @@
 import fastifyPlugin from "fastify-plugin";
 
-import prisma from "@/db";
+import prisma from "@/lib/db";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -8,7 +8,7 @@ declare module "fastify" {
   }
 }
 const fastifyPrisma = fastifyPlugin(
-  async (fastify, opt) => {
+  async (fastify, _) => {
     if (fastify.prisma) return;
 
     fastify.decorate("prisma", prisma);

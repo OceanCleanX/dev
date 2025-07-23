@@ -5,7 +5,7 @@ import fastifyCors from "@fastify/cors";
 
 import { appRouter } from "@/routers";
 import { createContext } from "@/trpc/context";
-import logger from "@/logger";
+import logger from "@/lib/logger";
 import handler from "@/sio-handler";
 import fastifyPrisma from "@/fastify-plugins/prisma";
 

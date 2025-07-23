@@ -1,4 +1,4 @@
-import logger from "@/logger";
+import logger from "@/lib/logger";
 import boats from "@/config/boats";
 
 import registerControlHandler from "./control-server";
