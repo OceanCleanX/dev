@@ -38,7 +38,7 @@ const Page = () => {
           priority
         />
         <div className="hidden absolute bottom-[calc(100%-100vh+4rem+32px)] left-1/2 -translate-x-1/2 md:flex flex-col items-center space-y-3.5">
-          <span className="text-sm text-neutral">Scroll to continue...</span>
+          <span className="text-sm">Scroll to continue...</span>
           <ChevronDownIcon className="i-ph-caret-down size-[18px] motion-safe:animate-bounce" />
         </div>
       </div>
