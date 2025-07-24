@@ -8,10 +8,14 @@ import TRPCProvider from "@/components/providers/trpc";
 
 import type { FC, PropsWithChildren } from "react";
 
-const Providers: FC<PropsWithChildren> = ({ children }) => (
+const Providers: FC<
+  PropsWithChildren<{
+    intl: { locale?: string; messages: Record<string, unknown> };
+  }>
+> = ({ children, intl: { locale, messages } }) => (
   <Compose
     components={[
-      NextIntlClientProvider,
+      [NextIntlClientProvider, { locale, messages }],
       QueryProvider,
       TRPCProvider,
       JotaiProvider,
