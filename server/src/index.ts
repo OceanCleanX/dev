@@ -24,7 +24,11 @@ const server = fastify({ loggerInstance: logger, maxParamLength: 5000 });
 
 // CORS setup
 await server.register(fastifyCors, {
-  origin: ["http://localhost:3001", "https://oceancleanx.org"],
+  origin: [
+    "http://localhost:3001",
+    "https://preview.oceancleanx.org",
+    "https://oceancleanx.org",
+  ],
   methods: "GET,POST,PUT,PATCH,DELETE",
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,
@@ -50,7 +54,11 @@ declare module "fastify" {
 }
 await server.register(fastifySocketIO, {
   cors: {
-    origin: ["http://localhost:3001", "https://oceancleanx.org"],
+    origin: [
+      "http://localhost:3001",
+      "https://preview.oceancleanx.org",
+      "https://oceancleanx.org",
+    ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   },
 });
