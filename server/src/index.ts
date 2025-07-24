@@ -5,8 +5,10 @@ import fastifyCors from "@fastify/cors";
 
 import { appRouter } from "@/routers";
 import { createContext } from "@/trpc/context";
-import logger from "@/logger";
+import logger from "@/lib/logger";
 import handler from "@/sio-handler";
+import fastifyPrisma from "@/fastify-plugins/prisma";
+import authRoute from "@/fastify-plugins/auth";
 
 import type { FastifyTRPCPluginOptions } from "@trpc/server/adapters/fastify";
 import type { Server } from "socket.io";
@@ -22,8 +24,11 @@ const server = fastify({ loggerInstance: logger, maxParamLength: 5000 });
 
 // CORS setup
 await server.register(fastifyCors, {
-  origin: "*",
+  origin: ["http://localhost:3001", "https://oceancleanx.org"],
   methods: "GET,POST,PUT,PATCH,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  credentials: true,
+  maxAge: 86400,
 });
 
 // TRPC setup
@@ -45,10 +50,16 @@ declare module "fastify" {
 }
 await server.register(fastifySocketIO, {
   cors: {
-    origin: "*",
+    origin: ["http://localhost:3001", "https://oceancleanx.org"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   },
 });
 server.ready().then(() => server.io.on("connection", handler));
+
+// prisma setup
+await server.register(fastifyPrisma);
+
+// better-auth setup
+await server.register(authRoute);
 
 server.listen({ port: 3000 });

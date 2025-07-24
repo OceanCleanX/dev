@@ -27,6 +27,34 @@
     "support": "Support Us",
     "login": "Login"
   },
+  "auth": {
+    "back": "Return to home page",
+    "welcome": "Welcome to OceanCleanX",
+    "too-short": "Must be at least {min} characters",
+    "too-long": "Must be at most {max} characters",
+    "require-username": "Username is required",
+    "require-password": "Password is required",
+    "require-confirm-password": "Confirm password is required",
+    "require-lowercase": "Must contain lowercase letter",
+    "require-uppercase": "Must contain uppercase letter",
+    "require-number": "Must contain number",
+    "invalid-email": "Invalid email address",
+    "invalid-confirm-password": "Invalid confirm password",
+    "invalid-username-or-password": "Invalid username or password",
+    "unknown-error": "Unknown error occurred",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirm-password": "Confirm Password",
+    "login": {
+      "forgot-password": "Forgot password?",
+      "login-button": "Login",
+      "new": "New to OceanCleanX?\nCreate account here"
+    },
+    "register": {
+      "register-button": "Register"
+    }
+  },
   "control": {
     "log": {
       "title": "Log",

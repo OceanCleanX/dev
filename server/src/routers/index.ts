@@ -1,8 +1,6 @@
 import { router } from "@/trpc";
 
-import agora from "./agora";
-
-const appRouter = router({ agora });
+const appRouter = router({});
 
 type AppRouter = typeof appRouter;
 
