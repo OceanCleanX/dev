@@ -10,9 +10,9 @@ import type { FC, PropsWithChildren } from "react";
 
 const Providers: FC<
   PropsWithChildren<{
-    intl: { locale?: string; messages: Record<string, unknown> };
+    intl?: { locale?: string; messages?: Record<string, unknown> };
   }>
-> = ({ children, intl: { locale, messages } }) => (
+> = ({ children, intl: { locale, messages } = {} }) => (
   <Compose
     components={[
       [NextIntlClientProvider, { locale, messages }],
