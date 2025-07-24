@@ -1,12 +1,9 @@
-import { Provider as JotaiProvider } from "jotai";
 import { notFound } from "next/navigation";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
-import QueryProvider from "@/components/providers/tanstack-query";
-import MotionProvider from "@/components/providers/motion";
-import TRPCProvider from "@/components/providers/trpc";
+import Providers from "@/components/providers";
 
 import "./globals.css";
 
@@ -31,15 +28,7 @@ const Layout: FC<
   return (
     <html lang="en">
       <body>
-        <NextIntlClientProvider>
-          <QueryProvider>
-            <TRPCProvider>
-              <JotaiProvider>
-                <MotionProvider>{children}</MotionProvider>
-              </JotaiProvider>
-            </TRPCProvider>
-          </QueryProvider>
-        </NextIntlClientProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

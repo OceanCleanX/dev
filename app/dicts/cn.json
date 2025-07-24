@@ -27,6 +27,34 @@
     "support": "支持我们",
     "login": "登陆"
   },
+  "auth": {
+    "back": "返回主页",
+    "welcome": "欢迎来到 OceanCleanX",
+    "too-short": "至少需要 {min} 个字符",
+    "too-long": "最多 {max} 个字符",
+    "require-username": "用户名是必需的",
+    "require-password": "密码是必需的",
+    "require-confirm-password": "确认密码是必需的",
+    "require-lowercase": "必须包含小写字母",
+    "require-uppercase": "必须包含大写字母",
+    "require-number": "必须包含数字",
+    "invalid-email": "无效的电子邮件地址",
+    "invalid-confirm-password": "确认密码无效",
+    "invalid-username-or-password": "无效的用户名或密码",
+    "unknown-error": "发生未知错误",
+    "username": "用户名",
+    "email": "电子邮件",
+    "password": "密码",
+    "confirm-password": "确认密码",
+    "login": {
+      "forgot-password": "忘记密码？",
+      "login-button": "登录",
+      "new": "新用户？\n在这里创建账户"
+    },
+    "register": {
+      "register-button": "注册"
+    }
+  },
   "control": {
     "log": {
       "title": "日志",

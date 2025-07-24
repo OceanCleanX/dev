@@ -1,4 +1,11 @@
-import type { ValidSocketInfo as ControlInfo } from "@/utils/control-protocol";
+import type { ValidSocketInfo as ControlInfo } from "@/lib/control-protocol";
+
+type AgoraAuth = {
+  appid: string;
+  token: string;
+  channel: string;
+  uid: number | string;
+};
 
 interface S2CEv {
   "control-info": (info: ControlInfo) => void;
@@ -7,6 +14,7 @@ interface S2CEv {
 
 interface C2SEv {
   speed: (left: number, right: number) => void;
+  "agora:auth": (callback: (auth: AgoraAuth) => void) => void;
 }
 
 interface ServerSideEvents {}

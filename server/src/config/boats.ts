@@ -5,6 +5,10 @@ const BoatsSchema = z.array(
   z.object({
     "control-server-addr": z.string(),
     "control-server-port": z.number().int().positive(),
+    "agora-app-id": z.string(),
+    "agora-app-cert": z.string(),
+    "agora-channel-name": z.string(),
+    "agora-token-expire": z.number().int().positive(),
   }),
 );
 type Boats = z.infer<typeof BoatsSchema>;
