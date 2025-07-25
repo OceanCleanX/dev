@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun run src/index.ts",
-    "better-auth:generate": "bunx @better-auth/cli generate --config src/lib/auth.ts --output=./prisma/models/auth.prisma"
+    "better-auth:generate": "bunx @better-auth/cli generate --config src/lib/auth.ts --output=./prisma/models/auth.prisma",
+    "prisma:migrate": "bunx prisma migrate dev"
   },
   "prisma": {
     "schema": "./prisma"

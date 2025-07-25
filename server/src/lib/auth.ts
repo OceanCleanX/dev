@@ -10,5 +10,8 @@ export const auth: ReturnType<typeof betterAuth> = betterAuth({
   emailAndPassword: { enabled: true },
   plugins: [admin(), username({ minUsernameLength: 6 })],
   trustedOrigins: trustedOrigins,
-  advanced: { useSecureCookies: true },
+  advanced: {
+    crossSubDomainCookies: { enabled: true, domain: ".oceancleanx.org" },
+    useSecureCookies: true,
+  },
 });
