@@ -61,6 +61,7 @@ const LoginForm = () => {
           break;
         default:
           setError("username", { type: "manual", message: "unknown-error" });
+          console.error(error.code);
       }
     },
     [locale, setError],

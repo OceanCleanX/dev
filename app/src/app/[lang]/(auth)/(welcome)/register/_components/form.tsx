@@ -53,7 +53,7 @@ const RegisterForm = () => {
   } = useForm<RegisterSchemaType>({ resolver: zodResolver(LoginSchema) });
   const onSubmit: SubmitHandler<RegisterSchemaType> = useCallback(
     async (data) => {
-      const { error } = await signUp.email(data);
+      const { error } = await signUp.email({ username: data.name, ...data });
       if (!error) {
         redirect({ href: "/", locale });
         return;
