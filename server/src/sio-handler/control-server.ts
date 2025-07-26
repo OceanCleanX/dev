@@ -21,7 +21,9 @@ const registerControlHandler: RegisterHandler = (socket, boat) => {
     if (!res.valid) return;
     socket.emit("control-info", res);
   });
-  controlSocket.on("close", () => logger.info("Control connection closed"));
+  controlSocket.on("close", () =>
+    logger.info("TCP control server connection closed"),
+  );
   controlSocket.on("error", (err) =>
     logger.error(`Control TCP connection error: ${err.message}`),
   );
