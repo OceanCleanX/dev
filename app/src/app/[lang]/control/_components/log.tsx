@@ -35,12 +35,12 @@ const Log = () => {
   const logs = useAtomValue(logAtom);
 
   return (
-    <>
+    <div className="w-fit pl-1.5">
       <div className="text-lg font-semibold -ml-1.5 mb-2">{t("title")}</div>
       {logs.map((log, index) => (
         <LogEntryItem key={index} entry={log} />
       ))}
-    </>
+    </div>
   );
 };
 

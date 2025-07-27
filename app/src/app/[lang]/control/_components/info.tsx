@@ -23,7 +23,7 @@ const InfoSection: FC<PropsWithChildren<{ name: string }>> = ({
   children,
 }) => (
   <div className="w-fit">
-    <span className="text-primary font-semibold -ml-1.5">{name}</span>
+    <span className="font-semibold -ml-1.5">{name}</span>
     {children}
   </div>
 );
