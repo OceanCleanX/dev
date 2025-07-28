@@ -1,3 +1,5 @@
+import cn from "@/lib/cn";
+
 import { Control } from "./_components/controls";
 import Camera from "./_components/camera";
 import AgoraProvider from "./_components/agora";
@@ -5,11 +7,10 @@ import Info from "./_components/info";
 import Map from "./_components/map";
 import Log from "./_components/log";
 import { SIOProvider } from "./_components/sio";
-import cn from "@/lib/cn";
 
 const BG_CLS =
   "backdrop-blur-md backdrop-saturate-[180%] [backface-visibility:hidden] backdrop-hue-rotate-15 backdrop-contrast-50 bg-white/30 rounded-lg";
-const TEXT_LAYOUT_CLS = "px-4 py-3 overflow-y-auto";
+const TEXT_LAYOUT_CLS = "px-4 py-3";
 
 const App = () => (
   <SIOProvider>
@@ -24,7 +25,7 @@ const App = () => (
         >
           <Info />
         </div>
-        <Control className="absolute bottom-64 left-40" />
+        <Control className="absolute bottom-56 left-40" />
         <div className="absolute top-0 left-0 w-96 h-64 overflow-hidden">
           <Map />
         </div>
