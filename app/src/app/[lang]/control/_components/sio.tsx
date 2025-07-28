@@ -52,13 +52,18 @@ const SIOProvider: FC<PropsWithChildren> = ({ children }) => {
     socket.on("connect", () => addLog(t("sio-connected")));
     socket.on("connect_error", () => addLog(t("sio-connect-error")));
     socket.on("error", (msg) => addLog(t("sio-error", { error: msg })));
+    registered.forEach((key) =>
+      socket.on(key, (...data: Parameters<S2CEv[typeof key]>) =>
+        client.setQueryData(["sio", key], data),
+      ),
+    );
 
     return () => {
       socket.off("error");
       registered.forEach((key) => socket.off(key));
       socket.disconnect();
     };
-  }, [addLog, t]);
+  }, [addLog, client, t]);
 
   return (
     <SIOCtx.Provider value={socketRef.current}>

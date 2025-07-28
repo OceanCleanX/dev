@@ -23,7 +23,7 @@ const InfoSection: FC<PropsWithChildren<{ name: string }>> = ({
   children,
 }) => (
   <div className="w-fit">
-    <span className="text-primary font-semibold -ml-1.5">{name}</span>
+    <span className="font-semibold -ml-1.5">{name}</span>
     {children}
   </div>
 );
@@ -60,7 +60,7 @@ const Info = () => {
   const motorWave = useMotorWave();
 
   return (
-    <div className="w-fit space-y-3 pl-1.5">
+    <div className="max-h-full w-fit space-y-3 pl-1.5 overflow-y-auto">
       <InfoSection name={t("boat.section-title")}>
         <SocketInfo />
       </InfoSection>

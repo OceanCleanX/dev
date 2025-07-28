@@ -17,7 +17,9 @@ const Input = forwardRef<
       <label htmlFor={id} className="text-[#808080] text-xs">
         {name}
       </label>
-      {errorMsg && <span className="text-red-700 text-xs">{errorMsg}</span>}
+      {errorMsg && (
+        <span className="text-red-700 text-[0.65rem]">{errorMsg}</span>
+      )}
     </span>
     <input
       id={id}
