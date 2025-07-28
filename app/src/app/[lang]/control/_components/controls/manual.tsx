@@ -10,11 +10,12 @@ import {
   useDebouncedCallback,
   useThrottledCallback,
 } from "@tanstack/react-pacer";
+import JoyStick from "rc-joystick";
 
-import { SPEED_MAX, SPEED_MIN } from "./shared";
+import { SPEED_MAX, SPEED_MID, SPEED_MIN } from "./shared";
 
+import type { IJoystickChangeValue } from "rc-joystick";
 import type { ControlComponent } from "./shared";
-import cn from "@/lib/cn";
 
 const TRIANGLE_SIZE = "1.5rem";
 const RightTriangle = memo(
@@ -74,7 +75,43 @@ const limitSpeed = (s: number) => Math.max(SPEED_MIN, Math.min(SPEED_MAX, s));
 const hasOneOfKeys = (keys: Set<string>, ...keysToCheck: string[]) =>
   keysToCheck.some(Set.prototype.has.bind(keys));
 
-const SELECTED_CLS = "brightness-125";
+const MAX_JOYSTICK_DISTANCE = 75;
+// returns [t, direction]
+// const calcJoystickSpeed = (val: IJoystickChangeValue): [number, number] => {
+//   if (!val.angle) return [0, 0];
+//   const { distance, angle } = val;
+//
+//   return angle <= 180
+//     ? [
+//         (distance / MAX_JOYSTICK_DISTANCE) * MAX_T,
+//         (angle >= 90 ? -(angle - 90) : angle) / 90,
+//       ]
+//     : [
+//         -(distance / MAX_JOYSTICK_DISTANCE) * MAX_T,
+//         (angle <= 270 ? angle - 270 : 360 - angle) / 90,
+//       ];
+// };
+// returns [left, right]
+const calcJoystickSpeed = (val: IJoystickChangeValue): [number, number] => {
+  if (!val.angle) return [SPEED_MID, SPEED_MID];
+  const { distance, angle } = val;
+  const rad = angle * (Math.PI / 180);
+  const r = Math.min(1, distance / MAX_JOYSTICK_DISTANCE);
+  const x = Math.cos(rad);
+  const y = Math.sin(rad);
+  let left = y - x;
+  let right = y + x;
+  const max = Math.max(Math.abs(x), Math.abs(y));
+  if (max > 1) {
+    left /= max;
+    right /= max;
+  }
+  return [left, right]
+    .map((v) => SPEED_MID + v * r * SPEED_MID)
+    .map(Math.round)
+    .map(limitSpeed) as [number, number];
+};
+
 const ManualControl: ControlComponent = ({ setSpeed }) => {
   const [keys, _setKeys] = useState(() => new Set<string>());
   const [t, setT] = useState(0);
@@ -161,25 +198,22 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
       const speed = calcSpeed(t); // speed ranges from 0 to SPEED_MAX
       const left = Math.round(speed * (1 + direction));
       const right = Math.round(speed * (1 - direction));
-      setSpeed([limitSpeed(left), limitSpeed(right)]);
+      setSpeed([left, right].map(limitSpeed) as [number, number]);
     },
     { wait: 20 },
   );
   useEffect(() => {
     calcSpeedHandler(t, direction);
-  }, [calcSpeedHandler, direction, t]);
+  }, [calcSpeedHandler, t, direction]);
 
   return (
-    <div className="relative -translate-y-20">
-      <RightTriangle className={cn("absolute", { [SELECTED_CLS]: isUp() })} />
-      <RightTriangle
-        className={cn("absolute rotate-90", { [SELECTED_CLS]: isRight() })}
-      />
-      <RightTriangle
-        className={cn("absolute -rotate-90", { [SELECTED_CLS]: isLeft() })}
-      />
-      <RightTriangle
-        className={cn("absolute rotate-180", { [SELECTED_CLS]: isDown() })}
+    <div className="translate-y-20">
+      <JoyStick
+        throttle={20}
+        onChange={useCallback(
+          (val: IJoystickChangeValue) => setSpeed(calcJoystickSpeed(val)),
+          [setSpeed],
+        )}
       />
     </div>
   );
