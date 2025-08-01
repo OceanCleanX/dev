@@ -1,3 +1,5 @@
+"use client";
+
 import AgoraRTC, { AgoraRTCProvider, useJoin } from "agora-rtc-react";
 import { useTranslations } from "next-intl";
 
@@ -7,7 +9,7 @@ import { useSIO } from "./sio";
 import type { FC, PropsWithChildren } from "react";
 
 const AutoJoin = () => {
-  const t = useTranslations("control.log");
+  const t = useTranslations("control-panel.log");
   const addLog = useAddLog();
   const sio = useSIO();
 

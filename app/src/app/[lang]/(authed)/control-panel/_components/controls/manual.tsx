@@ -1,49 +1,32 @@
-import {
-  ComponentProps,
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import {
   useDebouncedCallback,
   useThrottledCallback,
 } from "@tanstack/react-pacer";
-import JoyStick from "rc-joystick";
+import JoyStick, { Direction } from "rc-joystick";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+} from "@radix-ui/react-icons";
 
-import { SPEED_MAX, SPEED_MID, SPEED_MIN } from "./shared";
+import { WAVE_MAX, WAVE_MID, WAVE_MIN } from "./shared";
 
 import type { IJoystickChangeValue } from "rc-joystick";
 import type { ControlComponent } from "./shared";
-
-const TRIANGLE_SIZE = "1.5rem";
-const RightTriangle = memo(
-  forwardRef<HTMLDivElement, Omit<ComponentProps<"div">, "children">>(
-    ({ style, ...props }, ref) => (
-      <div
-        ref={ref}
-        style={{
-          transformOrigin: "50% calc(100% + 2.75rem)",
-          borderLeft: `${TRIANGLE_SIZE} solid transparent`,
-          borderRight: `${TRIANGLE_SIZE} solid transparent`,
-          borderBottom: `calc(${TRIANGLE_SIZE} * 2 * 0.866) solid var(--color-primary)`,
-          borderTop: `${TRIANGLE_SIZE} solid transparent`,
-          ...style,
-        }}
-        {...props}
-      />
-    ),
-  ),
-);
-RightTriangle.displayName = "RightTriangle";
+import { atom, useAtom } from "jotai";
 
 // constants for speed calculation
 const INCREMENT = 1;
 const LIMIT = 20;
 // sigmoid for speed calculation
-const calcSpeed = (x: number) => SPEED_MAX / (1 + Math.exp(-INCREMENT * x));
+const calcSpeed = (x: number) => WAVE_MAX / (1 + Math.exp(-INCREMENT * x));
 
+const tAtom = atom(0);
+const directionAtom = atom(0);
 // constants for manual control
 const T_STEP = 0.5;
 const MAX_T = LIMIT;
@@ -70,30 +53,14 @@ const reset = (n: number) => (Math.abs(n) < BOUND ? 0 : n * resetCoff);
 const RESET_WAIT = 300;
 const RESET_INTERVAL = 50;
 
-const limitSpeed = (s: number) => Math.max(SPEED_MIN, Math.min(SPEED_MAX, s));
+const limitSpeed = (s: number) => Math.max(WAVE_MIN, Math.min(WAVE_MAX, s));
 
 const hasOneOfKeys = (keys: Set<string>, ...keysToCheck: string[]) =>
   keysToCheck.some(Set.prototype.has.bind(keys));
 
 const MAX_JOYSTICK_DISTANCE = 75;
-// returns [t, direction]
-// const calcJoystickSpeed = (val: IJoystickChangeValue): [number, number] => {
-//   if (!val.angle) return [0, 0];
-//   const { distance, angle } = val;
-//
-//   return angle <= 180
-//     ? [
-//         (distance / MAX_JOYSTICK_DISTANCE) * MAX_T,
-//         (angle >= 90 ? -(angle - 90) : angle) / 90,
-//       ]
-//     : [
-//         -(distance / MAX_JOYSTICK_DISTANCE) * MAX_T,
-//         (angle <= 270 ? angle - 270 : 360 - angle) / 90,
-//       ];
-// };
-// returns [left, right]
 const calcJoystickSpeed = (val: IJoystickChangeValue): [number, number] => {
-  if (!val.angle) return [SPEED_MID, SPEED_MID];
+  if (!val.angle) return [WAVE_MID, WAVE_MID];
   const { distance, angle } = val;
   const rad = angle * (Math.PI / 180);
   const r = Math.min(1, distance / MAX_JOYSTICK_DISTANCE);
@@ -107,22 +74,28 @@ const calcJoystickSpeed = (val: IJoystickChangeValue): [number, number] => {
     right /= max;
   }
   return [left, right]
-    .map((v) => SPEED_MID + v * r * SPEED_MID)
+    .map((v) => WAVE_MID + v * r * WAVE_MID)
     .map(Math.round)
     .map(limitSpeed) as [number, number];
+};
+const joyStickArrowMap = {
+  [Direction.Top]: () => <ChevronUpIcon className="size-6" />,
+  [Direction.Right]: () => <ChevronRightIcon className="size-6" />,
+  [Direction.Bottom]: () => <ChevronDownIcon className="size-6" />,
+  [Direction.Left]: () => <ChevronLeftIcon className="size-6" />,
 };
 
 const ManualControl: ControlComponent = ({ setSpeed }) => {
   const [keys, _setKeys] = useState(() => new Set<string>());
-  const [t, setT] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [t, setT] = useAtom(tAtom);
+  const [direction, setDirection] = useAtom(directionAtom);
 
   // reset t and direction if keys are not pressed
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const resetHandler = useCallback(() => {
     setT(reset);
     setDirection(reset);
-  }, []);
+  }, [setDirection, setT]);
   const _startReset = useDebouncedCallback(
     (id: NodeJS.Timeout | null) => {
       if (id) {
@@ -167,7 +140,7 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
     if (isRight()) setDirection(incDirection);
 
     startReset();
-  }, [isDown, isLeft, isRight, isUp, startReset]);
+  }, [isDown, isLeft, isRight, isUp, setDirection, setT, startReset]);
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       setKeys(Set.prototype.add, event.key);
@@ -207,16 +180,18 @@ const ManualControl: ControlComponent = ({ setSpeed }) => {
   }, [calcSpeedHandler, t, direction]);
 
   return (
-    <div className="translate-y-20">
-      <JoyStick
-        throttle={20}
-        onChange={useCallback(
-          (val: IJoystickChangeValue) => setSpeed(calcJoystickSpeed(val)),
-          [setSpeed],
-        )}
-      />
-    </div>
+    <JoyStick
+      className="bg-radial/shorter! from-[#000D16] from-15% via-[#001824] via-50% to-[#021C29] border-none! outline-2 outline-offset-8 outline-[#061A25] shadow-xl! text-[#138D9E]"
+      controllerClassName="bg-linear-to-br! from-[#002030] to-[#011523] border-none! shadow-xl!"
+      renderArrows={joyStickArrowMap}
+      throttle={20}
+      onChange={useCallback(
+        (val: IJoystickChangeValue) => setSpeed(calcJoystickSpeed(val)),
+        [setSpeed],
+      )}
+    />
   );
 };
 
+export { tAtom, MIN_T, MAX_T, directionAtom, DIRECTION_MIN, DIRECTION_MAX };
 export default ManualControl;

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   createContext,
   useCallback,
@@ -30,7 +32,7 @@ const SIOProvider: FC<PropsWithChildren> = ({ children }) => {
   const socketRef = useRef<SIOWrapper>(io(SIO_URL, { autoConnect: false }));
   const registeredCbs = useRef<Set<keyof S2CEv>>(new Set());
   const addLog = useAddLog();
-  const t = useTranslations("control.log");
+  const t = useTranslations("control-panel.log");
 
   const registerSIOCb = useCallback(
     (key: keyof S2CEv) => {
