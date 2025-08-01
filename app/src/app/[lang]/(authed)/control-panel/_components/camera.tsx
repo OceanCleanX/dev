@@ -1,9 +1,12 @@
+"use client";
+
 import {
   RemoteVideoTrack,
   useRTCClient,
   useRemoteUsers,
   useRemoteVideoTracks,
 } from "agora-rtc-react";
+
 import type { ComponentPropsWithRef, FC } from "react";
 
 const Camera: FC<ComponentPropsWithRef<"div">> = ({ className, ...props }) => {

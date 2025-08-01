@@ -55,7 +55,7 @@
       "register-button": "注册"
     }
   },
-  "control": {
+  "control-panel": {
     "log": {
       "title": "日志",
       "agora-join": "尝试加入 Agora 频道...",
@@ -66,25 +66,28 @@
       "sio-connect-error": "Socket.IO 连接错误",
       "sio-error": "Socket.IO 错误: {error}"
     },
-    "modes": {
-      "Manual": "手动",
-      "Constant": "固定",
-      "Auto": "自动"
+    "system": {
+      "title": "系统",
+      "voltage": "电压",
+      "wifi": "Wi-Fi",
+      "gyro-x": "陀螺仪 X",
+      "gyro-y": "陀螺仪 Y"
     },
-    "info": {
-      "boat": {
-        "section-title": "船只信息",
-        "delay": "延迟（毫秒）",
-        "voltage": "电压（伏特）",
-        "wifi_strength": "信号强度（条）",
-        "gyro_x": "陀螺仪 X (m/s²)",
-        "gyro_y": "陀螺仪 Y (m/s²)",
-        "gyro_z": "陀螺仪 Z (m/s²)"
-      },
-      "control": {
-        "section-title": "控制",
-        "mode": "操控模式",
-        "motor": "马达 PWM 波频（归一化）"
+    "controls": {
+      "title": "控制",
+      "mode": "模式",
+      "modes": {
+        "Manual": "手动",
+        "Constant": "恒定",
+        "Auto": "自动"
+      }
+    },
+    "control-status": {
+      "left-wave": "左 PWM 波",
+      "right-wave": "右 PWM 波",
+      "manual": {
+        "t": "非曲速",
+        "direction": "方向"
       }
     }
   }

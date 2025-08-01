@@ -1,35 +1,40 @@
-import { useEffect } from "react";
-import { atom, useAtom, useAtomValue } from "jotai";
+"use client";
+
+import { forwardRef, useEffect } from "react";
+import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 
-import { speedAtom } from "./shared";
+import { ControlMode, controlModeAtom, waveAtom } from "./shared";
 import ConstantControl from "./constant";
 import ManualControl from "./manual";
 import { useSIO } from "../sio";
 
-import type { ComponentPropsWithRef, FC } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  FC,
+} from "react";
 import type { ControlComponent } from "./shared";
 
-enum ControlMode {
-  Manual,
-  Constant,
-  Auto,
-}
 const ControlModeKeyValues = Object.entries(ControlMode).filter(
   // fuck eslint
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ([_, v]) => typeof v === "number",
 );
 
-const controlModeAtom = atom<ControlMode>(ControlMode.Manual);
-const ControlModeSwitch = () => {
-  const t = useTranslations("control.modes");
+const ControlModeSwitch = forwardRef<
+  HTMLSelectElement,
+  Omit<ComponentPropsWithoutRef<"select">, "onChange" | "value">
+>((props, ref) => {
+  const t = useTranslations("control-panel.controls.modes");
   const [controlMode, setControlMode] = useAtom(controlModeAtom);
 
   return (
     <select
+      ref={ref}
       onChange={(e) => setControlMode(e.target.value as unknown as ControlMode)}
       value={controlMode}
+      {...props}
     >
       {ControlModeKeyValues.map(([key, value]) => (
         <option key={key} value={value}>
@@ -38,7 +43,8 @@ const ControlModeSwitch = () => {
       ))}
     </select>
   );
-};
+});
+ControlModeSwitch.displayName = "ControlModeSwitch";
 
 const AutoControl: ControlComponent = () => <>Not yet implemented</>;
 
@@ -47,7 +53,7 @@ const Control: FC<ComponentPropsWithRef<"div">> = (props) => {
   const sio = useSIO();
 
   const controlMode = useAtomValue(controlModeAtom);
-  const [speed, setSpeed] = useAtom(speedAtom);
+  const [speed, setSpeed] = useAtom(waveAtom);
 
   useEffect(() => {
     const id = setInterval(() => sio.emit("speed", speed[0], speed[1]), 20);
@@ -64,4 +70,4 @@ const Control: FC<ComponentPropsWithRef<"div">> = (props) => {
   );
 };
 
-export { ControlModeSwitch, Control };
+export { controlModeAtom, ControlModeSwitch, Control };

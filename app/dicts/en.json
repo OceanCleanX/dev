@@ -55,7 +55,7 @@
       "register-button": "Register"
     }
   },
-  "control": {
+  "control-panel": {
     "log": {
       "title": "Log",
       "agora-join": "Attempting to join Agora channel...",
@@ -66,25 +66,28 @@
       "sio-connect-error": "Socket.IO connection error",
       "sio-error": "Socket.IO error: {error}"
     },
-    "modes": {
-      "Manual": "Manual",
-      "Constant": "Constant",
-      "Auto": "Auto"
+    "system": {
+      "title": "System",
+      "voltage": "Voltage",
+      "wifi": "Wi-Fi",
+      "gyro-x": "Gyro X",
+      "gyro-y": "Gyro Y"
     },
-    "info": {
-      "boat": {
-        "section-title": "Boat",
-        "delay": "Delay (ms)",
-        "voltage": "Voltage (V)",
-        "wifi_strength": "WiFi Strength (bar)",
-        "gyro_x": "Gyro X (m/s²)",
-        "gyro_y": "Gyro Y (m/s²)",
-        "gyro_z": "Gyro Z (m/s²)"
-      },
-      "control": {
-        "section-title": "Control",
-        "mode": "Mode",
-        "motor": "Normalized Motor Wave"
+    "controls": {
+      "title": "Controls",
+      "mode": "Mode",
+      "modes": {
+        "Manual": "Manual",
+        "Constant": "Constant",
+        "Auto": "Auto"
+      }
+    },
+    "control-status": {
+      "left-wave": "Left PWM Wave",
+      "right-wave": "Right PWM Wave",
+      "manual": {
+        "t": "Uncurved Speed",
+        "direction": "Direction"
       }
     }
   }

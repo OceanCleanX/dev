@@ -1,3 +1,5 @@
+"use client";
+
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -9,7 +11,7 @@ const Map = () => {
   return (
     <MapContainer
       attributionControl={false} // TODO: attribute somewhere else in the future
-      className="w-96 h-64"
+      className="w-full h-full invert"
       center={[51.505, -0.09]}
       zoom={13}
     >

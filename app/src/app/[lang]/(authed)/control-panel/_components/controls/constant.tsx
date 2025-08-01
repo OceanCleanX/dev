@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import z from "zod";
 
-import { SPEED_MIN, SPEED_MID, SPEED_MAX } from "./shared";
+import { WAVE_MIN, WAVE_MID, WAVE_MAX } from "./shared";
 
 import type { Dispatch, SetStateAction, ChangeEvent } from "react";
 import type { ControlComponent } from "./shared";
@@ -17,11 +17,11 @@ const updateSpeed = (
     return newSpeed;
   });
 };
-const SpeedSchema = z.coerce.number().min(SPEED_MIN).max(SPEED_MAX);
+const SpeedSchema = z.coerce.number().min(WAVE_MIN).max(WAVE_MAX);
 const ConstantControl: ControlComponent = ({ setSpeed }) => {
   const [tmpSpeed, setTmpSpeed] = useState<[number, number]>([
-    SPEED_MID,
-    SPEED_MID,
+    WAVE_MID,
+    WAVE_MID,
   ]);
 
   const handleInput = useCallback(
@@ -37,6 +37,7 @@ const ConstantControl: ControlComponent = ({ setSpeed }) => {
     <>
       {["Left", "Right"].map((v, idx) => (
         <form
+          className="text-white"
           key={v}
           onSubmit={(ev) => {
             ev.preventDefault();
@@ -46,8 +47,8 @@ const ConstantControl: ControlComponent = ({ setSpeed }) => {
           <span>{v}: </span>
           <input
             type="number"
-            min={SPEED_MIN}
-            max={SPEED_MAX}
+            min={WAVE_MIN}
+            max={WAVE_MAX}
             value={tmpSpeed[idx]}
             onChange={(ev) => handleInput(idx, ev)}
           />
